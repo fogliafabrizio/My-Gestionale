@@ -68,6 +68,11 @@ public class Users {
     )
     private Role role;
 
+    @Column(
+            name = "enabled"
+    )
+    private boolean enabled;
+
     @CreationTimestamp
     private LocalDateTime created_on;
 

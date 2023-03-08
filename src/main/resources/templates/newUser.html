@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base_nav::layout(~{::section})}">
+<head>
+
+</head>
+<body>
+    <section>
+        <div class="row justify-content-center pt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header pt-3">
+                        <h5 class="card-title text-center">Registrazione utente</h5>
+                        <div th:if="${session.msgSuccessRegistration != null}" class="alert alert-success col-7 text-center mx-auto" role="alert">
+                            <span th:text="${session.msgSuccessRegistration}"></span>
+                        </div>
+                        <div th:if="${session.msgErrorRegistration != null}" class="alert alert-danger col-7 text-center mx-auto" role="alert">
+                            <span th:text="${session.msgErrorRegistration}"></span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <form th:action="@{/admin/newUser}" method="post">
+                            <div class="mb-3">
+                                <label for="inputNome" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="inputNome" name="firstName" placeholder="Inserisci il nome" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputCognome" class="form-label">Cognome</label>
+                                <input type="text" class="form-control" id="inputCognome" name="lastName" placeholder="Inserisci il cognome" required>
+                            </div>
+                            <label for="inputEmail" class="form-label">Indirizzo Email</label>
+                            <div class="mb-3 input-group">
+                                <input type="text" class="form-control" id="inputEmail" name="email" placeholder="Inserisci l'indirizzo email" required>
+                                <span class="input-group-text">@rationence.eu</span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputRuolo" class="form-label">Ruolo</label>
+                                <select class="form-select" id="inputRuolo" name="role" required>
+                                    <option th:each="role : ${T(it.fogliafabrizio.mygestionale.model.Role).values()}"
+                                            th:value="${role.name()}">[[${role.name()}]]</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Registra Utente</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+</html>

@@ -137,6 +137,7 @@ span a:hover{
         left: 47%;
     }
     .text{
+        display:none;
         position: absolute;
         top: 70%;
         text-align: center;

@@ -22,13 +22,14 @@ public class MyGestionaleApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		Users user = new Users();
+		/*Users user = new Users();
 		user.setFirstName("Fabrizio");
 		user.setLastName("Foglia");
 		user.setEmail(".");
 		user.setPassword(passwordEncoder.encode("."));
 		user.setRole(Role.ADMIN);
+		user.setEnabled(true);
 
-		usersRepository.save(user);
+		usersRepository.save(user);*/
 	}
 }

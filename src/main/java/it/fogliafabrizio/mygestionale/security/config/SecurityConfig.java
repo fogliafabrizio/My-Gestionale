@@ -1,5 +1,6 @@
 package it.fogliafabrizio.mygestionale.security.config;
 
+import it.fogliafabrizio.mygestionale.model.Role;
 import it.fogliafabrizio.mygestionale.security.service.impl.UserDetailsServiceImpl;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -50,8 +51,9 @@ public class SecurityConfig {
         ) throws Exception {
         http
                 .authorizeHttpRequests()
-                .requestMatchers("/signin").permitAll()
+                .requestMatchers("/signin", "/verify/**", "/forgot", "/reset/**").permitAll()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
 
                 .and()

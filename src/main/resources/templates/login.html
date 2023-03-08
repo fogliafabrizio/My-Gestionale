@@ -28,6 +28,15 @@
                                 <div th:if="${param.logout}" class="alert alert-success">
                                     Logout avvenuto con successo!
                                 </div>
+                                <div th:if="${session.msgSuccessVerify != null}" class="alert alert-success text-center mx-auto" role="alert">
+                                    <span th:text="${session.msgSuccessVerify}"></span>
+                                   </div>
+                                <div th:if="${session.msgSuccessForgot != null}" class="alert alert-success text-center mx-auto" role="alert">
+                                    <span th:text="${session.msgSuccessForgot}"></span>
+                                </div>
+                                <div th:if="${session.msgSuccessResetPsw != null}" class="alert alert-success text-center mx-auto" role="alert">
+                                    <span th:text="${session.msgSuccessResetPsw}"></span>
+                                    </div>
                                 <div class="input-field">
                                     <input type="text" class="input" id="username" name="username" required autocomplete="off">
                                     <label for="username">Email</label>
@@ -40,7 +49,7 @@
                                     <input type="submit" class="submit" value="Accedi">
                                 </div>
                                 <div class="signin">
-                                    <span>Hai dimenticato la password? <a href="#">Clicca qui</a></span>
+                                    <span>Hai dimenticato la password? <a href="/forgot">Clicca qui</a></span>
                                 </div>
                             </form>
                         </div>

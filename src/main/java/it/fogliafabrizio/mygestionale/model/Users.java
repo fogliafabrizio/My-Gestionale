@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Data
@@ -71,7 +73,13 @@ public class Users {
     @Column(
             name = "enabled"
     )
-    private boolean enabled;
+    private boolean enabled=false;
+
+    @Column(
+            name = "dob"
+    )
+    @Temporal(TemporalType.DATE)
+    private Calendar dateOfBirhtday;
 
     @CreationTimestamp
     private LocalDateTime created_on;

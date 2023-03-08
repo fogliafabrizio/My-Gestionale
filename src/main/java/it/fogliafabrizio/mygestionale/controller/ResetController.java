@@ -52,6 +52,7 @@ public class ResetController {
         redirectAttributes.addAttribute("redirect", true);
         session.removeAttribute("msgErrorResetPsw");
         session.removeAttribute("msgSuccessResetPsw");
+        session.removeAttribute("msgSuccessForgot");
         //  Controllo che le password siano uguali
         if(!password.equals(confirmPassword)){
             session.setAttribute("msgErrorResetPsw", "Le due password non corrispondono!");

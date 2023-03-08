@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base_noNav::layout(~{::section})}">
+<head>
+
+</head>
+<body>
+    <section>
+        <div class="wrapper">
+            <div class="container main">
+                <div class="row">
+                    <div class="col-md-6 side-image">
+                        <!-------Image-------->
+                        <img src="images/logo.png" alt="logo">
+                        <div class="text">
+                            <p>PAT Project Activity Tracker</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 right">
+                        <div class="input-box">
+                            <header>Login</header>
+                            <form action="/login" method="post">
+                                <div th:if="${param.error}" class="alert alert-danger">
+                                    [[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]
+                                </div>
+                                <div th:if="${param.success}" class="alert alert-success">
+                                    Login avvenuto con successo!
+                                </div>
+                                <div th:if="${param.logout}" class="alert alert-success">
+                                    Logout avvenuto con successo!
+                                </div>
+                                <div class="input-field">
+                                    <input type="text" class="input" id="username" name="username" required autocomplete="off">
+                                    <label for="username">Email</label>
+                                </div>
+                                <div class="input-field">
+                                    <input type="password" class="input" id="password" name="password" required>
+                                    <label for="password">Password</label>
+                                </div>
+                                <div class="input-field">
+                                    <input type="submit" class="submit" value="Accedi">
+                                </div>
+                                <div class="signin">
+                                    <span>Hai dimenticato la password? <a href="#">Clicca qui</a></span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+</html>

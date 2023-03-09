@@ -1,2 +1,21 @@
 HOME PAGE COSA MOSTRA?
-    -
+    -   CALENDARIO
+    -   CHAT
+    -   DIAGRAMMA ATTIVITA' DEL MESE (USER)
+
+TABELLE NEL VERO PAT:
+    -   USER
+        -   USERNAME (Id)
+        -   MAIL
+        -   NAME
+        -   SURNAME
+        -   DESCRIZIONE
+        -   COST int
+        -   TIME
+        -   PASSWORDHASH
+        -   ENABLED boolean
+            join column:
+        -   ACTIVITIES (1-M) Username -->
+        -   ROLE (M-1)
+        -   TEAM (M-1)
+        -

@@ -35,6 +35,8 @@ public class UserController {
             Model model
     ){
         model.addAttribute("title", "Edit profile");
+        model.addAttribute("cssFile", "/css/edit_profile.css");
+        model.addAttribute("jsFile", "/js/edit_profile.js");
         return "edit_profile";
     }
 }

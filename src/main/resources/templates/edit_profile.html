@@ -4,30 +4,46 @@
 </head>
 <body>
 <section>
-
-        <div class="row pt-5 justify-content-center">
-            <div class="col-md-4">
+        <div class="row pt-3 justify-content-center">
+            <div class="col-md-4 pt-3">
                 <div class="card">
                     <!-- Contenuto della prima card -->
-                    <div class="card-body">
-                        <!-- TODO: Immagine header
-                         TODO: Nome cognome
-                         TODO: Pulsanti sotto che decidono menu a fianco
-                         TODO: https://bootsnipp.com/snippets/M48pA -->
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <img th:src="@{/images/work_bg.jpg}" alt="Nome Cognome" class="img-fluid rounded-circle mr-3" id="img_profile">
+                            <h5 class="card-title my-auto ps-3">[[${user.firstName}]] [[${user.lastName}]]</h5>
+                        </div>
                     </div>
+
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush">
+                            <button type="button" class="list-group-item list-group-item-action custom-btn" value="personal_data"><i class="fa-solid fa-user"></i> Dati Personali</button>
+                            <button type="button" class="list-group-item list-group-item-action custom-btn" value="change_password"><i class="fa-solid fa-lock"></i> Cambio Password</button>
+                            <button type="button" class="list-group-item list-group-item-action custom-btn"><i class="fa-solid fa-chart-line"></i> Attività</button>
+                            <button type="button" class="list-group-item list-group-item-action custom-btn">A fourth button item</button>
+                            <button type="button" class="list-group-item list-group-item-action custom-btn">A disabled button item</button>
+                        </div>
+                    </div>
+
+
+
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 pt-3">
                 <div class="card">
-                    <div class="card-header text-center">
-                        <h5>Informazioni</h5>
+                    <div class="card-header text-center" id="info-title">
+                        <h5>Pagina del Profilo</h5>
                     </div>
                     <!-- Contenuto della seconda card -->
+                    <div class="card-body min-height-sm" id="info-body">
+                        <p>Clicca su un opzione del menù per vedere le tue informazioni personali o modificarle.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
+    <input type="hidden" th:value="${user.id}" id="id">
 </section>
-
 </body>
+
 </html>

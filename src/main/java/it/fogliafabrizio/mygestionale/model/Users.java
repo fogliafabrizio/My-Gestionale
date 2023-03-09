@@ -9,7 +9,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
 
 @Entity
 @Data
@@ -79,7 +78,7 @@ public class Users {
             name = "dob"
     )
     @Temporal(TemporalType.DATE)
-    private Calendar dateOfBirhtday;
+    private Calendar dateOfBirthday;
 
     @CreationTimestamp
     private LocalDateTime created_on;

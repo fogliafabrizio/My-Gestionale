@@ -1,0 +1,17 @@
+
+.custom-btn:focus,
+.custom-btn:active,
+.custom-btn.active {
+  color: #007bff !important;
+}
+
+
+#img_profile{
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+#card-body-data{
+    min-height: 100px;
+}

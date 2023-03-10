@@ -1,4 +1,4 @@
-package it.fogliafabrizio.mygestionale.resporitory;
+package it.fogliafabrizio.mygestionale.repository;
 
 import it.fogliafabrizio.mygestionale.model.UserGroups;
 import it.fogliafabrizio.mygestionale.model.Users;
@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface UserGroupsRepository extends JpaRepository<UserGroups, Long> {
 
-    public List<UserGroups> findByUserAdmin (Users userAdmin);
+    //  public List<UserGroups> findByUserAdmin (Users userAdmin);
     //  SELECT
 }

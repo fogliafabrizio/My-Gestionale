@@ -1,10 +1,8 @@
 package it.fogliafabrizio.mygestionale.controller;
 
 import it.fogliafabrizio.mygestionale.model.Users;
-import it.fogliafabrizio.mygestionale.resporitory.UsersRepository;
+import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 

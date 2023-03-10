@@ -2,7 +2,7 @@ package it.fogliafabrizio.mygestionale.security.service.impl;
 
 import it.fogliafabrizio.mygestionale.model.Users;
 import it.fogliafabrizio.mygestionale.model.security.CustomUserDetails;
-import it.fogliafabrizio.mygestionale.resporitory.UsersRepository;
+import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

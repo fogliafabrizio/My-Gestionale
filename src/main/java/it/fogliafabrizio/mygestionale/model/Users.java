@@ -8,7 +8,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 @Entity
 @Data
@@ -85,6 +87,18 @@ public class Users {
 
     @UpdateTimestamp
     private LocalDateTime update_on;
+
+    @OneToMany(mappedBy = "userCreator", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Events> events = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "invitedUsers", cascade = CascadeType.ALL)
+    private List<Events> invitedEvents = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userAdmin", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserGroups> groups = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "userMembers", cascade = CascadeType.ALL)
+    private List<UserGroups> teamsUsers = new ArrayList<>();
 
 
 }

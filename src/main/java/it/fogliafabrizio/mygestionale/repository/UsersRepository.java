@@ -1,4 +1,4 @@
-package it.fogliafabrizio.mygestionale.resporitory;
+package it.fogliafabrizio.mygestionale.repository;
 
 import it.fogliafabrizio.mygestionale.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;

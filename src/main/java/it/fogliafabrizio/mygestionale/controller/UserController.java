@@ -1,7 +1,7 @@
 package it.fogliafabrizio.mygestionale.controller;
 
 import it.fogliafabrizio.mygestionale.model.Users;
-import it.fogliafabrizio.mygestionale.resporitory.UsersRepository;
+import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

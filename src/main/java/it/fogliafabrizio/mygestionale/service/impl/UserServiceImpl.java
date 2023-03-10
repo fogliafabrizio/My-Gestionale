@@ -1,7 +1,7 @@
 package it.fogliafabrizio.mygestionale.service.impl;
 
 import it.fogliafabrizio.mygestionale.model.Users;
-import it.fogliafabrizio.mygestionale.resporitory.UsersRepository;
+import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import it.fogliafabrizio.mygestionale.service.UserService;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;

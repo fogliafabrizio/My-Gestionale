@@ -86,7 +86,7 @@ public class Events {
 
     @ManyToOne
     @JoinColumn(name = "user_owner", nullable = false)
-    private Users userOwner;
+    private Users userCreator;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(

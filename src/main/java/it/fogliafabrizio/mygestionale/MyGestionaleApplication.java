@@ -4,8 +4,8 @@ import it.fogliafabrizio.mygestionale.model.Role;
 import it.fogliafabrizio.mygestionale.model.UserGroups;
 import it.fogliafabrizio.mygestionale.model.Users;
 import it.fogliafabrizio.mygestionale.model.Visibility;
-import it.fogliafabrizio.mygestionale.resporitory.UserGroupsRepository;
-import it.fogliafabrizio.mygestionale.resporitory.UsersRepository;
+import it.fogliafabrizio.mygestionale.repository.UserGroupsRepository;
+import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,9 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.spi.CalendarDataProvider;
 
 @SpringBootApplication
 public class MyGestionaleApplication implements CommandLineRunner {
@@ -33,7 +31,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 	}
 
 	@Override
-	@Transactional
+	//@Transactional
 	public void run(String... args) throws Exception {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		/*	CREAZIONE UTENTE ADMIN */
@@ -56,7 +54,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 		user2.setLastName("Carlesso");
 		user2.setEmail("prova");
 		user2.setPassword(passwordEncoder.encode("prova"));
-		user2.setRole(Role.ADMIN);
+		user2.setRole(Role.USER);
 		user2.setEnabled(true);
 		Calendar birthday2 = Calendar.getInstance();
 		birthday2.set(Calendar.DAY_OF_MONTH, 23);
@@ -65,7 +63,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 		user.setDateOfBirthday(birthday2);
 		usersRepository.save(user2);
 
-		UserGroups groups = new UserGroups();
+		/*UserGroups groups = new UserGroups();
 		groups.setName("Prova");
 		groups.setVisibility(Visibility.PUBLIC);
 		groups.setUserAdmin(user);
@@ -73,7 +71,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 		list.add(user2);
 		list.add(user);
 		groups.setUserMembers(list);
-		groupsRepository.save(groups);
+		groupsRepository.save(groups);*/
 
 		/* Prova
 		Prova p = new Prova();

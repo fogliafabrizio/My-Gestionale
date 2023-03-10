@@ -1,7 +1,7 @@
 package it.fogliafabrizio.mygestionale.controller;
 
 import it.fogliafabrizio.mygestionale.model.Users;
-import it.fogliafabrizio.mygestionale.resporitory.UsersRepository;
+import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import it.fogliafabrizio.mygestionale.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

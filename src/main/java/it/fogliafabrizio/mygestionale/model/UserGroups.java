@@ -1,5 +1,6 @@
 package it.fogliafabrizio.mygestionale.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,6 +56,7 @@ public class UserGroups {
 
     @ManyToOne
     @JoinColumn(name = "user_admin_id", nullable = false)
+    @JsonIgnore
     private Users userAdmin;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
@@ -65,7 +67,7 @@ public class UserGroups {
     )
     private List<Users> userMembers = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "invitedGroups", cascade = CascadeType.ALL)
-    private List<Events> invitedEvents = new ArrayList<>();
+    /*@ManyToMany(mappedBy = "invitedGroups", cascade = CascadeType.ALL)
+    private List<Events> invitedEvents = new ArrayList<>();*/
 
 }

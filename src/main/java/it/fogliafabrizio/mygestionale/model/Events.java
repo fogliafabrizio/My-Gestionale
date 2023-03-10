@@ -96,12 +96,12 @@ public class Events {
     )
     private List<Users> invitedUsers = new ArrayList<>();
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    /*@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(
             name = "events_teams_invitated",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id")
     )
-    private List<UserGroups> invitedGroups = new ArrayList<>();
+    private List<UserGroups> invitedGroups = new ArrayList<>();*/
 
 }

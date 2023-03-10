@@ -59,4 +59,12 @@ public class APIController {
             }
         }
     }
+
+    @PostMapping("/user/groups/{id}")
+    public String getGroups(
+            @PathVariable("id") Long id
+    ){
+
+        return "user";
+    }
 }

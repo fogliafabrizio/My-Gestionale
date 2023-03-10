@@ -15,13 +15,18 @@ $(document).ready(function(){
         switch(type_data){
 
         case "personal_data":
-            $('#info-title').append("<h5><i class='fa-solid fa-user'></i> Dati Personali</h5>");
+            $('#info-title').append("<span><i class='fa-solid fa-user'></i> Dati Personali</span>");
             bodyPersonalData(type_data);
             break;
         case "change_password":
-            $('#info-title').append("<h5><i class='fa-solid fa-lock'></i> Cambio Password</h5>");
+            $('#info-title').append("<span><i class='fa-solid fa-lock'></i> Cambio Password</span>");
             bodyChangePassword(type_data);
             break;
+        case "groups":
+             $('#info-title').append("<span><i class='fa-solid fa-user-group'></i> Gruppi</span>");
+             bodyGroups(type_data);
+             break;
+
         }
 
     });
@@ -144,5 +149,21 @@ $(document).ready(function(){
           });
           });
 
+    }
+
+    function bodyGroups(type_data){
+        let id = $('#id').val()
+        let url_req = url + type_data + "/" + id;
+            console.log(url_req);
+        $.ajax({
+            url: url_req,
+            type: 'POST',
+            success: function(data) {
+                console.log(data);
+            },
+             error: function(jqXHR, textStatus, errorThrown) {
+               console.error(errorThrown);
+             }
+           });
     }
 });

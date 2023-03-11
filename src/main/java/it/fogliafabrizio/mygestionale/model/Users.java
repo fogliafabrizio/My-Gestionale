@@ -1,5 +1,6 @@
 package it.fogliafabrizio.mygestionale.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -88,17 +89,30 @@ public class Users {
     @UpdateTimestamp
     private LocalDateTime update_on;
 
-    @OneToMany(mappedBy = "userCreator", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userCreator")
     private List<Events> events = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "invitedUsers", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "invitedUsers")
     private List<Events> invitedEvents = new ArrayList<>();
 
     @OneToMany(mappedBy = "userAdmin", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserGroups> groups = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "userMembers", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "userMembers")
     private List<UserGroups> teamsUsers = new ArrayList<>();
 
-
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", enabled=" + enabled +
+                ", dateOfBirthday=" + dateOfBirthday +
+                ", created_on=" + created_on +
+                ", update_on=" + update_on + '}';
+    }
 }

@@ -35,7 +35,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		/*	CREAZIONE UTENTE ADMIN */
-		Users user = new Users();
+		/*Users user = new Users();
 		user.setFirstName("Fabrizio");
 		user.setLastName("Foglia");
 		user.setEmail(".");
@@ -61,15 +61,15 @@ public class MyGestionaleApplication implements CommandLineRunner {
 		birthday2.set(Calendar.MONTH, Calendar.OCTOBER);
 		birthday2.set(Calendar.YEAR, 1997);
 		user.setDateOfBirthday(birthday2);
-		usersRepository.save(user2);
+		usersRepository.save(user2);*/
 
 		/*UserGroups groups = new UserGroups();
-		groups.setName("Prova");
+		groups.setName("Prova22");
 		groups.setVisibility(Visibility.PUBLIC);
-		groups.setUserAdmin(user);
+		groups.setUserAdmin(usersRepository.findById(2L).orElseThrow());
 		List<Users> list = new ArrayList<>();
-		list.add(user2);
-		list.add(user);
+		list.add(usersRepository.findById(1L).orElseThrow());
+		list.add(usersRepository.findById(2L).orElseThrow());
 		groups.setUserMembers(list);
 		groupsRepository.save(groups);*/
 

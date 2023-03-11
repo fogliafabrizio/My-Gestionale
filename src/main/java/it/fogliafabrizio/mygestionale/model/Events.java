@@ -1,5 +1,6 @@
 package it.fogliafabrizio.mygestionale.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -88,7 +89,7 @@ public class Events {
     @JoinColumn(name = "user_owner", nullable = false)
     private Users userCreator;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToMany
     @JoinTable(
             name = "events_users_invitated",
             joinColumns = @JoinColumn(name = "event_id"),
@@ -96,12 +97,25 @@ public class Events {
     )
     private List<Users> invitedUsers = new ArrayList<>();
 
-    /*@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(
             name = "events_teams_invitated",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id")
     )
-    private List<UserGroups> invitedGroups = new ArrayList<>();*/
+    private List<UserGroups> invitedGroups = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "Events{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                ", beginHour=" + beginHour +
+                ", endHour=" + endHour +
+                ", visibility=" + visibility +
+                ", allUserInvitated=" + allUserInvitated +
+                '}';
+    }
 }

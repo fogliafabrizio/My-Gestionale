@@ -38,6 +38,7 @@ public class UserGroups {
     @Column(
             name = "name",
             nullable = false,
+            unique = true,
             length = 128
     )
     private String name;
@@ -59,7 +60,8 @@ public class UserGroups {
     @JsonIgnore
     private Users userAdmin;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "teams_members",
             joinColumns = @JoinColumn(name = "team_id"),
@@ -67,7 +69,16 @@ public class UserGroups {
     )
     private List<Users> userMembers = new ArrayList<>();
 
-    /*@ManyToMany(mappedBy = "invitedGroups", cascade = CascadeType.ALL)
-    private List<Events> invitedEvents = new ArrayList<>();*/
+    @ManyToMany(mappedBy = "invitedGroups", cascade = CascadeType.ALL)
+    private List<Events> invitedEvents = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "UserGroups{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", visibility=" + visibility +
+                ", createdOn=" + createdOn +
+                '}';
+    }
 }

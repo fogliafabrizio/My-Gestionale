@@ -1,10 +1,15 @@
 package it.fogliafabrizio.mygestionale.controller;
 
+import it.fogliafabrizio.mygestionale.model.UserGroups;
 import it.fogliafabrizio.mygestionale.model.Users;
+import it.fogliafabrizio.mygestionale.repository.UserGroupsRepository;
 import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -12,6 +17,9 @@ public class APIController {
 
     @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    private UserGroupsRepository groupsRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -22,6 +30,9 @@ public class APIController {
     ){
         System.out.println(id);
         Users user = usersRepository.findById(id).orElseThrow();
+        System.out.println(user);
+        System.out.println(user.toString());
+
         user.setPassword("");
         return user;
     }
@@ -60,11 +71,13 @@ public class APIController {
         }
     }
 
-    @PostMapping("/user/groups/{id}")
-    public String getGroups(
+    /*@PostMapping("/user/groups/{id}")
+    public List<UserGroups> getGroups(
             @PathVariable("id") Long id
     ){
-
-        return "user";
-    }
+        Users user = usersRepository.findById(id).orElseThrow();
+        List<UserGroups> groups = groupsRepository.findByUserAdmin(user);
+        //System.out.println(groups);
+        return groups;
+    }*/
 }

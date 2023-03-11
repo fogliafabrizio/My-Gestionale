@@ -9,6 +9,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -28,11 +32,7 @@ public class APIController {
     public Users getPersonalData(
             @PathVariable("id") Long id
     ){
-        System.out.println(id);
         Users user = usersRepository.findById(id).orElseThrow();
-        System.out.println(user);
-        System.out.println(user.toString());
-
         user.setPassword("");
         return user;
     }
@@ -69,6 +69,39 @@ public class APIController {
                 }
             }
         }
+    }
+
+    @PostMapping("/user/personal_data/birthdate/{id}")
+    public String editDob(
+            @PathVariable("id") Long id,
+            @RequestParam String birthdate
+    ) throws ParseException {
+        Users user = usersRepository.findById(id).orElseThrow();
+        System.out.println("Data: " + birthdate);
+        if (birthdate.equals("")){
+            user.setDateOfBirthday(null);
+            usersRepository.save(user);
+            return "BIRTH_RESET";
+        } else if (birthdate.equals("Non definita")) {
+            return "BIRTH_NOT_OK";
+        }
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = sdf.parse(birthdate);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+
+            user.setDateOfBirthday(calendar);
+
+            usersRepository.save(user);
+
+            System.out.println(user.getDateOfBirthday());
+
+            return "BIRTH_OK";
+        } catch (ParseException e){
+            return "BIRTH_NOT_OK";
+        }
+
     }
 
     /*@PostMapping("/user/groups/{id}")

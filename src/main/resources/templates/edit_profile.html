@@ -10,7 +10,12 @@
                     <!-- Contenuto della prima card -->
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <img th:src="@{/images/work_bg.jpg}" alt="Nome Cognome" class="img-fluid rounded-circle mr-3" id="img_profile">
+                            <div class="d-flex align-items-center position-relative">
+                                <img th:src="@{/images/work_bg.jpg}" alt="Nome Cognome" class="img-fluid rounded-circle mr-3" id="img_profile">
+                                <div class="overlay">
+                                    <i class="fas fa-pencil-alt" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+                                </div>
+                            </div>
                             <h5 class="card-title my-auto ps-3">[[${user.firstName}]] [[${user.lastName}]]</h5>
                         </div>
                     </div>
@@ -20,8 +25,8 @@
                             <button type="button" class="list-group-item list-group-item-action custom-btn" value="personal_data"><i class="fa-solid fa-user"></i> Dati Personali</button>
                             <button type="button" class="list-group-item list-group-item-action custom-btn" value="change_password"><i class="fa-solid fa-lock"></i> Cambio Password</button>
                             <button type="button" class="list-group-item list-group-item-action custom-btn" value="groups"><i class="fa-solid fa-user-group"></i> Gruppi</button>
-                            <button type="button" class="list-group-item list-group-item-action custom-btn">A fourth button item</button>
-                            <button type="button" class="list-group-item list-group-item-action custom-btn">A disabled button item</button>
+                            <button type="button" class="list-group-item list-group-item-action custom-btn" value="image_user"><i class="fa-solid fa-image"></i> Immagine del profilo</button>
+                            <button type="button" class="list-group-item list-group-item-action custom-btn" disabled>A disabled button item</button>
                         </div>
                     </div>
 
@@ -41,6 +46,25 @@
                 </div>
             </div>
         </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <input type="hidden" th:value="${user.id}" id="id">
 </section>

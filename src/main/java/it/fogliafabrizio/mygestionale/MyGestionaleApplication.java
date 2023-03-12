@@ -35,7 +35,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 	//@Transactional
 	public void run(String... args) throws Exception {
 		/*BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		*//*	CREAZIONE UTENTE ADMIN *//*
+			//CREAZIONE UTENTE ADMIN
 		Users user = new Users();
 		user.setFirstName("Fabrizio");
 		user.setLastName("Foglia");
@@ -72,40 +72,11 @@ public class MyGestionaleApplication implements CommandLineRunner {
 		list.add(usersRepository.findById(1L).orElseThrow());
 		list.add(usersRepository.findById(2L).orElseThrow());
 		groups.setUserMembers(list);
-		groupsRepository.save(groups);*/
+		groupsRepository.save(groups);
 
-		/* Prova
-		Prova p = new Prova();
-		p.setProva("CIAO");
-		Users users = usersRepository.findByEmail(".");
-		p.setUser(users);
-		provaRepository.save(p);*/
+		 //FESTIVITA
 
-		/*	EVENTS PROVA */
-		/*Events events = new Events();
-
-		events.setName("prova Evento");
-		events.setVisibility(Visibility.PUBLIC);
-		events.setDescription("Desrcizoine prova");
-		events.setAllUserInvitated(false);
-
-		Calendar date = Calendar.getInstance();
-		date.set(Calendar.DAY_OF_MONTH, 10);
-		date.set(Calendar.MONTH, Calendar.OCTOBER);
-		date.set(Calendar.YEAR, 1997);
-		events.setDate(date);
-		Date bhour = new Date();
-		events.setBeginHour(bhour);
-		events.setEndHour(bhour);
-
-		Users user = usersRepository.findByEmail(".");
-		events.setUserOwner(user);
-
-		eventsRepository.save(events);*/
-
-		/* FESTIVITA */
-
-		/*for(int i=2023; i<2100; i++){
+		for(int i=2023; i<2043; i++){
 			Events events = new Events();
 			events.setName("Natale");
 			events.setAllDay(true);
@@ -121,7 +92,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 			eventsRepository.save(events);
 		}
 
-		for(int i=2023; i<2100; i++){
+		for(int i=2023; i<2043; i++){
 			Events events = new Events();
 			events.setName("Santo Stefano");
 			events.setAllDay(true);
@@ -137,7 +108,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 			eventsRepository.save(events);
 		}
 
-		for(int i=2023; i<2100; i++){
+		for(int i=2023; i<2043; i++){
 			Events events = new Events();
 			events.setName("Santo Stefano");
 			events.setAllDay(true);
@@ -153,7 +124,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 			eventsRepository.save(events);
 		}
 
-		for(int i=2023; i<2100; i++){
+		for(int i=2023; i<2043; i++){
 			Events events = new Events();
 			events.setName("Capodanno");
 			events.setAllDay(true);
@@ -169,7 +140,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 			eventsRepository.save(events);
 		}
 
-		for(int i=2023; i<2100; i++){
+		for(int i=2023; i<2043; i++){
 			Events events = new Events();
 			events.setName("Epifania");
 			events.setAllDay(true);
@@ -185,7 +156,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 			eventsRepository.save(events);
 		}
 
-		for(int i=2023; i<2100; i++){
+		for(int i=2023; i<2043; i++){
 			Events events = new Events();
 			events.setName("Anniversario della Liberazione");
 			events.setAllDay(true);
@@ -201,7 +172,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 			eventsRepository.save(events);
 		}
 
-		for(int i=2023; i<2100; i++){
+		for(int i=2023; i<2043; i++){
 			Events events = new Events();
 			events.setName("Festa del Lavoro");
 			events.setAllDay(true);
@@ -217,7 +188,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 			eventsRepository.save(events);
 		}
 
-		for(int i=2023; i<2100; i++){
+		for(int i=2023; i<2043; i++){
 			Events events = new Events();
 			events.setName("Festa della Repubblica");
 			events.setAllDay(true);
@@ -233,7 +204,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 			eventsRepository.save(events);
 		}
 
-		for(int i=2023; i<2100; i++){
+		for(int i=2023; i<2043; i++){
 			Events events = new Events();
 			events.setName("Ognissanti");
 			events.setAllDay(true);
@@ -249,7 +220,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 			eventsRepository.save(events);
 		}
 
-		for(int i=2023; i<2100; i++){
+		for(int i=2023; i<2043; i++){
 			Events events = new Events();
 			events.setName("Immacolata Concezione");
 			events.setAllDay(true);
@@ -265,8 +236,8 @@ public class MyGestionaleApplication implements CommandLineRunner {
 			eventsRepository.save(events);
 		}
 
-		eventsRepository.save(events);*/
 
+*/
 
 	}
 

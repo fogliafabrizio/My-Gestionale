@@ -51,7 +51,7 @@ public class SecurityConfig {
         ) throws Exception {
         http
                 .authorizeHttpRequests()
-                .requestMatchers("/signin", "/verify/**", "/forgot", "/reset/**").permitAll()
+                .requestMatchers("/signin", "/verify/**", "/forgot", "/reset/**", "/api/**").permitAll()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()

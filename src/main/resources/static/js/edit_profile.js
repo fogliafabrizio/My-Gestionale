@@ -269,7 +269,7 @@ $(document).ready(function(){
             url: url_req,
             type: 'POST',
             success: function(data) {
-
+                console.log(data);
                 if (Array.isArray(data) && data.length === 0) {
 
                 } else {

@@ -1,5 +1,6 @@
 package it.fogliafabrizio.mygestionale.controller;
 
+import it.fogliafabrizio.mygestionale.model.EventRequest;
 import it.fogliafabrizio.mygestionale.model.Events;
 import it.fogliafabrizio.mygestionale.model.UserGroups;
 import it.fogliafabrizio.mygestionale.model.Users;
@@ -7,10 +8,13 @@ import it.fogliafabrizio.mygestionale.repository.EventsRepository;
 import it.fogliafabrizio.mygestionale.repository.UserGroupsRepository;
 import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +25,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class APIController {
+
+    @ModelAttribute
+    private void userDetails(
+            Model model,
+            Principal principal
+    ){
+        if(principal != null){
+            String email = principal.getName();
+            Users user = usersRepository.findByEmail(email);
+            model.addAttribute("user", user);
+        }
+    }
 
     @Autowired
     private UsersRepository usersRepository;
@@ -118,6 +134,9 @@ public class APIController {
     ){
         List<Events> events = new ArrayList<>();
         Calendar data = Calendar.getInstance();
+        day = 25;
+        month = 12;
+        year = 2024;
         data.set(Calendar.DAY_OF_MONTH, day);
         switch (month){
             case 1:
@@ -159,17 +178,27 @@ public class APIController {
         }
         data.set(Calendar.YEAR, year);
         System.out.println(data);
+        /*
+            -   User - EVENTS
+            -   Events - (DATA)
+                -   Festività
+                -   AllUserInvitated
+         */
         events = eventsRepository.findByDate(data);
         return events;
     }
 
-    /*@PostMapping("/user/groups/{id}")
-    public List<UserGroups> getGroups(
-            @PathVariable("id") Long id
-    ){
-        Users user = usersRepository.findById(id).orElseThrow();
-        List<UserGroups> groups = groupsRepository.findByUserAdmin(user);
-        //System.out.println(groups);
-        return groups;
-    }*/
+    @PostMapping("/calendar/createEvent/{id}")
+    public String createEvent(
+            @RequestBody EventRequest eventRequest,
+            @PathVariable Long id
+    ) {
+        Events event = new Events();
+        event.setName(eventRequest.getEventName());
+        event.setUserCreator(usersRepository.findById(id).orElseThrow());
+        event.setFestivity(false);
+        System.out.println(eventRequest.getEventDate());
+
+        return "OK";
+    }
 }

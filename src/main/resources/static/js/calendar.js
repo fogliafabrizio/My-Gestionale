@@ -3,6 +3,134 @@ $(document).ready(function(){
     var prevYearBtn = document.getElementById('prev-year-btn');
     var nextYearBtn = document.getElementById('next-year-btn');
 
+    //  FORM CREA EVENTO
+
+    // selezionare gli elementi da disattivare
+    const $startTimeInput = $('#event-start-time');
+    const $endTimeInput = $('#event-end-time');
+    const $allDayCheckbox = $('#all-day-event');
+
+    // impostare il valore predefinito all'apertura della pagina
+    if ($allDayCheckbox.prop('checked')) {
+      $startTimeInput.prop('disabled', true).val('00:00');
+      $endTimeInput.prop('disabled', true).val('23:59');
+    }
+
+    // rilevare il cambiamento nella casella di controllo
+    $allDayCheckbox.on('change', (event) => {
+      if ($(event.target).prop('checked')) {
+        // disabilita i due input di tempo e impostare il valore a '00:00' e '23:59'
+        $startTimeInput.prop('disabled', true).val('00:00');
+        $endTimeInput.prop('disabled', true).val('23:59');
+      } else {
+        // abilita i due input di tempo
+        $startTimeInput.prop('disabled', false);
+        $endTimeInput.prop('disabled', false);
+      }
+    });
+
+    // Selezione del checkbox "Tutti gli utenti"
+      $('#allUsers').click(function() {
+        if($(this).is(':checked')) {
+          $('input[name^="user-"]').prop('checked', true);
+        } else {
+          $('input[name^="user-"]').prop('checked', false);
+        }
+      });
+
+      // Selezione/deselezione di tutti gli utenti
+      $('input[name^="user-"]').click(function() {
+        if($('input[name^="user-"]').length === $('input[name^="user-"]:checked').length) {
+          $('#allUsers').prop('checked', true);
+        } else {
+          $('#allUsers').prop('checked', false);
+        }
+      });
+
+    const allGroupsCheckbox = $('#allGroups');
+      const groupCheckboxes = $('input[name^="group-"]');
+
+      // Aggiungere l'event listener per il checkbox 'Tutti i gruppi'
+      allGroupsCheckbox.on('change', function() {
+        // Selezionare o deselezionare tutti i checkbox di gruppo
+        groupCheckboxes.prop('checked', this.checked);
+      });
+
+      // Aggiungere un event listener per i checkbox di gruppo individuali
+      groupCheckboxes.on('change', function() {
+        // Se ci sono checkbox non selezionati, deselezionare 'Tutti i gruppi'
+        if (groupCheckboxes.filter(':not(:checked)').length) {
+          allGroupsCheckbox.prop('checked', false);
+        } else {
+          allGroupsCheckbox.prop('checked', true);
+        }
+      });
+
+      // seleziona il form e ascolta l'evento submit
+        $('#new-event-form').submit(function(event) {
+          // evita il submit di default del form
+          event.preventDefault();
+
+          var idOwner = $("#id").val();
+          console.log(idOwner);
+
+          // ottieni tutti i checkbox degli utenti
+          var userCheckboxes = $('input[id^="user-"]');
+
+          // crea un array vuoto per gli ID utenti selezionati
+          var userIds = [];
+
+          // per ogni checkbox selezionato, aggiungi l'ID all'array
+          userCheckboxes.filter(':checked').each(function() {
+              userIds.push($(this).val());
+          });
+
+          // ottieni tutti i checkbox dei gruppi
+          var groupCheckboxes = $('input[id^="group-"]');
+
+          // crea un array vuoto per gli ID gruppi selezionati
+          var groupIds = [];
+
+          // per ogni checkbox selezionato, aggiungi l'ID all'array
+          groupCheckboxes.filter(':checked').each(function() {
+              groupIds.push($(this).val());
+          });
+
+         // ottieni i dati del form e trasformali in un oggetto JSON
+             var formData = {
+                 eventName: $('#event-name').val(),
+                 eventDescription: $('#event-description').val(),
+                 eventLocation: $('#event-location').val(),
+                 eventVisibility: $('#event-visibility').val(),
+                 eventDate: $('#event-date').val(),
+                 eventStartTime: $('#event-start-time').val(),
+                 eventEndTime: $('#event-end-time').val(),
+                 allDayEvent: $('#all-day-event').prop('checked'),
+                 userIds: userIds,
+                 groupIds: groupIds
+             };
+
+             console.log(formData);
+
+             // effettua la chiamata ajax per creare l'evento
+             $.ajax({
+                 url: '/api/calendar/createEvent/' + idOwner,
+                 type: 'POST',
+                 data: JSON.stringify(formData),
+                 contentType: 'application/json',
+                 success: function(response) {
+
+                     // gestisci la risposta dal server
+                     console.log(response);
+                 },
+                 error: function(error) {
+                     // gestisci l'errore dal server
+                     console.log(error);
+                 }
+             });
+        });
+
+
     prevYearBtn.addEventListener('click', function() {
       yearInput.value = parseInt(yearInput.value) - 1;
     });

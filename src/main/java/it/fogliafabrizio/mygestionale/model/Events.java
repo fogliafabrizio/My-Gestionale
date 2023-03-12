@@ -46,7 +46,7 @@ public class Events {
             length = 255,
             columnDefinition = "TEXT"
     )
-    private String description;
+    private String description = "";
 
     @Column(
             name = "location"
@@ -88,10 +88,9 @@ public class Events {
     private Visibility visibility;
 
     @Column(
-            name = "all_user_invitated",
-            nullable = false
+            name = "all_user_invitated"
     )
-    private boolean allUserInvitated;
+    private boolean allUserInvitated = false;
 
     @Column(
             name = "festivity"

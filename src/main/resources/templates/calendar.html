@@ -96,7 +96,7 @@
                                             <h1 class="modal-title fs-5" id="newEventLabel">Crea nuovo evento</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form id="new-event-form">
+                                        <form action="/api/calendar/createEvent" method="POST" id="new-event-form">
                                             <div class="modal-body">
                                                 <div class="mb-3">
                                                     <label for="event-name" class="form-label">Nome evento</label>
@@ -104,7 +104,93 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="event-description" class="form-label">Descrizione</label>
-                                                    <textarea class="form-control" id="event-description" name="event-description" required></textarea>
+                                                    <textarea class="form-control" id="event-description" name="event-description"></textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="event-location" class="form-label">Luogo</label>
+                                                    <input type="text" class="form-control" id="event-location" name="event-location">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="event-visibility" class="form-label">Visibilità</label>
+                                                    <select class="form-select" id="event-visibility" name="event-visibility" required>
+                                                        <option th:each="visibility : ${T(it.fogliafabrizio.mygestionale.model.Visibility).values()}" th:value="${visibility}" th:text="${visibility}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label for="event-date" class="col-sm-3 col-form-label">Data</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control" id="event-date" name="event-date" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label for="event-time" class="col-sm-3 col-form-label">Ora di inizio / fine</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="row">
+                                                            <div class="col-sm-5">
+                                                                <input type="time" class="form-control" id="event-start-time" name="event-start-time" required>
+                                                            </div>
+                                                            <div class="col-sm-2 text-center">
+                                                                <span class="input-group-text d-flex justify-content-center align-items-center">-</span>
+                                                            </div>
+                                                            <div class="col-sm-5">
+                                                                <input type="time" class="form-control" id="event-end-time" name="event-end-time" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" id="all-day-event" name="all-day-event">
+                                                                    <label class="form-check-label" for="all-day-event">
+                                                                        Tutto il giorno
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <h4>Utenti</h4>
+                                                        <div class="mb-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" value="0" type="checkbox" id="allUsers" name="allUsers">
+                                                                <label class="form-check-label" for="allUsers">
+                                                                    Tutti gli utenti
+                                                                </label>
+                                                            </div>
+                                                            <div th:each="user : ${usersList}">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" th:value="${user.id} "th:id="'user-' + ${user.id}" th:name="'user-' + ${user.id}">
+                                                                    <label class="form-check-label" th:attr="for='user-' + ${user.id}" th:text="${user.firstName} + ' ' + ${user.lastName}"></label>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <!-- Aggiungi altre checkbox per gli utenti -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div th:if="${not #lists.isEmpty(groupsList)}">
+                                                            <h4>Gruppi</h4>
+                                                        <div class="mb-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" value="0" type="checkbox" id="allGroups" name="allGroups">
+                                                                <label class="form-check-label" for="allGroups">
+                                                                    Tutti i gruppi
+                                                                </label>
+                                                            </div>
+                                                            <div th:each="group : ${groupsList}">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" th:value="${group.id}" th:id="'group-' + ${group.id}" th:name="'group-' + ${group.id}">
+                                                                    <label class="form-check-label" th:attr="for='group-' + ${group.id}" th:text="${group.name}"></label>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Aggiungi altre checkbox per i gruppi -->
+                                                            <input type="hidden" th:value="${user.id}" id="id">
+                                                        </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">

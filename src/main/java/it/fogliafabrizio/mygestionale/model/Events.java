@@ -49,6 +49,11 @@ public class Events {
     private String description;
 
     @Column(
+            name = "location"
+    )
+    private String location = "";
+
+    @Column(
             name = "date",
             nullable = false
     )
@@ -56,18 +61,21 @@ public class Events {
     private Calendar date;
 
     @Column(
-            name = "begin_hour",
-            nullable = false
+            name = "begin_hour"
             )
     @Temporal(TemporalType.TIMESTAMP)
     private Date beginHour;
 
     @Column(
-            name = "end_hour",
-            nullable = false
+            name = "end_hour"
             )
     @Temporal(TemporalType.TIMESTAMP)
     private Date endHour;
+
+    @Column(
+            name = "all_day"
+    )
+    private boolean allDay = false;
 
 
     @Column(
@@ -85,8 +93,13 @@ public class Events {
     )
     private boolean allUserInvitated;
 
+    @Column(
+            name = "festivity"
+    )
+    private boolean festivity = false;
+
     @ManyToOne
-    @JoinColumn(name = "user_owner", nullable = false)
+    @JoinColumn(name = "user_owner")
     private Users userCreator;
 
     @ManyToMany
@@ -111,11 +124,14 @@ public class Events {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", location='" + location + '\'' +
                 ", date=" + date +
                 ", beginHour=" + beginHour +
                 ", endHour=" + endHour +
+                ", allDay=" + allDay +
                 ", visibility=" + visibility +
                 ", allUserInvitated=" + allUserInvitated +
+                ", festivity" + festivity +
                 '}';
     }
 }

@@ -1,0 +1,56 @@
+
+.nav-item a:hover,
+.nav-item a:active {
+  color: #007bff !important; /* colore del testo quando l'utente ci passa sopra o seleziona l'elemento */
+  text-decoration: none !important; /* rimuovi il sottolineatura quando l'utente ci passa sopra o seleziona l'elemento */
+}
+
+.card {
+    padding:0 !important;
+}
+
+.card-body{
+    min-height: 100px;
+}
+
+.card-body .row {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.col-md-7 {
+  margin-right: 1rem;
+}
+
+.col-md-5 {
+  border-left: 1px solid #ccc;
+  padding-left: 1rem;
+  flex: 1;
+  padding-right: 1.4rem !important;
+}
+
+#year-input {
+  width: 4.5rem;
+}
+
+.input-group-prepend, .input-group-append {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.btn-link {
+  padding: 0;
+}
+.input-group {
+  max-width: 9rem;
+}
+
+.input-group-prepend {
+  margin-right: -1px;
+}
+
+.input-group-append {
+  margin-left: -1px;
+}
+

@@ -1,9 +1,7 @@
 package it.fogliafabrizio.mygestionale;
 
-import it.fogliafabrizio.mygestionale.model.Role;
-import it.fogliafabrizio.mygestionale.model.UserGroups;
-import it.fogliafabrizio.mygestionale.model.Users;
-import it.fogliafabrizio.mygestionale.model.Visibility;
+import it.fogliafabrizio.mygestionale.model.*;
+import it.fogliafabrizio.mygestionale.repository.EventsRepository;
 import it.fogliafabrizio.mygestionale.repository.UserGroupsRepository;
 import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import jakarta.transaction.Transactional;
@@ -26,6 +24,9 @@ public class MyGestionaleApplication implements CommandLineRunner {
 	@Autowired
 	private UserGroupsRepository groupsRepository;
 
+	@Autowired
+	private EventsRepository eventsRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(MyGestionaleApplication.class, args);
 	}
@@ -33,9 +34,9 @@ public class MyGestionaleApplication implements CommandLineRunner {
 	@Override
 	//@Transactional
 	public void run(String... args) throws Exception {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		/*	CREAZIONE UTENTE ADMIN */
-		/*Users user = new Users();
+		/*BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		*//*	CREAZIONE UTENTE ADMIN *//*
+		Users user = new Users();
 		user.setFirstName("Fabrizio");
 		user.setLastName("Foglia");
 		user.setEmail(".");
@@ -61,9 +62,9 @@ public class MyGestionaleApplication implements CommandLineRunner {
 		birthday2.set(Calendar.MONTH, Calendar.OCTOBER);
 		birthday2.set(Calendar.YEAR, 1997);
 		user.setDateOfBirthday(birthday2);
-		usersRepository.save(user2);*/
+		usersRepository.save(user2);
 
-		/*UserGroups groups = new UserGroups();
+		UserGroups groups = new UserGroups();
 		groups.setName("Prova22");
 		groups.setVisibility(Visibility.PUBLIC);
 		groups.setUserAdmin(usersRepository.findById(2L).orElseThrow());
@@ -101,6 +102,171 @@ public class MyGestionaleApplication implements CommandLineRunner {
 		events.setUserOwner(user);
 
 		eventsRepository.save(events);*/
+
+		/* FESTIVITA */
+
+		/*for(int i=2023; i<2100; i++){
+			Events events = new Events();
+			events.setName("Natale");
+			events.setAllDay(true);
+			Calendar data = Calendar.getInstance();
+			data.set(Calendar.DAY_OF_MONTH, 25);
+			data.set(Calendar.MONTH, Calendar.DECEMBER);
+			data.set(Calendar.YEAR, i);
+			events.setDate(data);
+			events.setDescription("Buon natale");
+			events.setAllUserInvitated(true);
+			events.setVisibility(Visibility.PUBLIC);
+			events.setFestivity(true);
+			eventsRepository.save(events);
+		}
+
+		for(int i=2023; i<2100; i++){
+			Events events = new Events();
+			events.setName("Santo Stefano");
+			events.setAllDay(true);
+			Calendar data = Calendar.getInstance();
+			data.set(Calendar.DAY_OF_MONTH, 26);
+			data.set(Calendar.MONTH, Calendar.DECEMBER);
+			data.set(Calendar.YEAR, i);
+			events.setDate(data);
+			events.setDescription("Buon natale");
+			events.setAllUserInvitated(true);
+			events.setVisibility(Visibility.PUBLIC);
+			events.setFestivity(true);
+			eventsRepository.save(events);
+		}
+
+		for(int i=2023; i<2100; i++){
+			Events events = new Events();
+			events.setName("Santo Stefano");
+			events.setAllDay(true);
+			Calendar data = Calendar.getInstance();
+			data.set(Calendar.DAY_OF_MONTH, 26);
+			data.set(Calendar.MONTH, Calendar.DECEMBER);
+			data.set(Calendar.YEAR, i);
+			events.setDate(data);
+			events.setDescription("Buon Santo Stefano a tutti!");
+			events.setAllUserInvitated(true);
+			events.setVisibility(Visibility.PUBLIC);
+			events.setFestivity(true);
+			eventsRepository.save(events);
+		}
+
+		for(int i=2023; i<2100; i++){
+			Events events = new Events();
+			events.setName("Capodanno");
+			events.setAllDay(true);
+			Calendar data = Calendar.getInstance();
+			data.set(Calendar.DAY_OF_MONTH, 1);
+			data.set(Calendar.MONTH, Calendar.JANUARY);
+			data.set(Calendar.YEAR, i);
+			events.setDate(data);
+			events.setDescription("Buon Anno Nuovo a tutti!");
+			events.setAllUserInvitated(true);
+			events.setVisibility(Visibility.PUBLIC);
+			events.setFestivity(true);
+			eventsRepository.save(events);
+		}
+
+		for(int i=2023; i<2100; i++){
+			Events events = new Events();
+			events.setName("Epifania");
+			events.setAllDay(true);
+			Calendar data = Calendar.getInstance();
+			data.set(Calendar.DAY_OF_MONTH, 6);
+			data.set(Calendar.MONTH, Calendar.JANUARY);
+			data.set(Calendar.YEAR, i);
+			events.setDate(data);
+			events.setDescription("Buona Epifania a tutti!");
+			events.setAllUserInvitated(true);
+			events.setVisibility(Visibility.PUBLIC);
+			events.setFestivity(true);
+			eventsRepository.save(events);
+		}
+
+		for(int i=2023; i<2100; i++){
+			Events events = new Events();
+			events.setName("Anniversario della Liberazione");
+			events.setAllDay(true);
+			Calendar data = Calendar.getInstance();
+			data.set(Calendar.DAY_OF_MONTH, 25);
+			data.set(Calendar.MONTH, Calendar.APRIL);
+			data.set(Calendar.YEAR, i);
+			events.setDate(data);
+			events.setDescription("Festa della Liberazione");
+			events.setAllUserInvitated(true);
+			events.setVisibility(Visibility.PUBLIC);
+			events.setFestivity(true);
+			eventsRepository.save(events);
+		}
+
+		for(int i=2023; i<2100; i++){
+			Events events = new Events();
+			events.setName("Festa del Lavoro");
+			events.setAllDay(true);
+			Calendar data = Calendar.getInstance();
+			data.set(Calendar.DAY_OF_MONTH, 1);
+			data.set(Calendar.MONTH, Calendar.MAY);
+			data.set(Calendar.YEAR, i);
+			events.setDate(data);
+			events.setDescription("Buona Festa del Lavoro a tutti");
+			events.setAllUserInvitated(true);
+			events.setVisibility(Visibility.PUBLIC);
+			events.setFestivity(true);
+			eventsRepository.save(events);
+		}
+
+		for(int i=2023; i<2100; i++){
+			Events events = new Events();
+			events.setName("Festa della Repubblica");
+			events.setAllDay(true);
+			Calendar data = Calendar.getInstance();
+			data.set(Calendar.DAY_OF_MONTH, 2);
+			data.set(Calendar.MONTH, Calendar.JUNE);
+			data.set(Calendar.YEAR, i);
+			events.setDate(data);
+			events.setDescription("Buona Festa della Repubblica a tutti!");
+			events.setAllUserInvitated(true);
+			events.setVisibility(Visibility.PUBLIC);
+			events.setFestivity(true);
+			eventsRepository.save(events);
+		}
+
+		for(int i=2023; i<2100; i++){
+			Events events = new Events();
+			events.setName("Ognissanti");
+			events.setAllDay(true);
+			Calendar data = Calendar.getInstance();
+			data.set(Calendar.DAY_OF_MONTH, 1);
+			data.set(Calendar.MONTH, Calendar.NOVEMBER);
+			data.set(Calendar.YEAR, i);
+			events.setDate(data);
+			events.setDescription("Buon onomastico a tutti!");
+			events.setAllUserInvitated(true);
+			events.setVisibility(Visibility.PUBLIC);
+			events.setFestivity(true);
+			eventsRepository.save(events);
+		}
+
+		for(int i=2023; i<2100; i++){
+			Events events = new Events();
+			events.setName("Immacolata Concezione");
+			events.setAllDay(true);
+			Calendar data = Calendar.getInstance();
+			data.set(Calendar.DAY_OF_MONTH, 8);
+			data.set(Calendar.MONTH, Calendar.DECEMBER);
+			data.set(Calendar.YEAR, i);
+			events.setDate(data);
+			events.setDescription("Buona giornata dell'Immacolata a tutti!");
+			events.setAllUserInvitated(true);
+			events.setVisibility(Visibility.PUBLIC);
+			events.setFestivity(true);
+			eventsRepository.save(events);
+		}
+
+		eventsRepository.save(events);*/
+
 
 	}
 

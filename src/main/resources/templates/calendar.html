@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base_nav::layout(~{::section})}">
+<head>
+</head>
+<body>
+<section>
+    <div class="container-fluid">
+        <div class="row pt-3 justify-content-center">
+            <div class="card col-10">
+                <div class="card-header">
+                    <!-- qui andranno gli elementi per la scelta dell'anno e del mese -->
+                    <div class="input-group mx-auto">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-link" type="button" id="prev-year-btn"><i class="fas fa-angle-left fa-lg"></i></button>
+                        </div>
+                        <input type="text" readonly class="form-control bg-transparent border-0 text-center font-weight-bold" value="2023" id="year-input">
+                        <div class="input-group-append">
+                            <button class="btn btn-link" type="button" id="next-year-btn"><i class="fas fa-angle-right fa-lg"></i></button>
+                        </div>
+                    </div>
+                    <ul class="nav nav-pills mt-3 justify-content-center">
+                        <li class="nav-item">
+                            <a class="nav-link text-muted month" data-value="1">GEN</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted month" data-value="2">FEB</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted month" data-value="3">MAR</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted month" data-value="4">APR</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted month" data-value="5">MAG</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted month" data-value="6">GIU</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted month" data-value="7">LUG</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted month" data-value="8">AGO</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted month" data-value="9">SET</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted month" data-value="10">OTT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted month" data-value="11">NOV</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted month" data-value="12">DIC</a>
+                        </li>
+                    </ul>
+                    </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <!-- Titolo calendario -->
+                            <p class="text-center fw-bold" id="monthYear"></p>
+                            <!-- qui andrà la tabella del calendario -->
+                            <table class="table table-transparent text-center" id="calendar-table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Lun</th>
+                                    <th scope="col">Mar</th>
+                                    <th scope="col">Mer</th>
+                                    <th scope="col">Gio</th>
+                                    <th scope="col">Ven</th>
+                                    <th scope="col">Sab</th>
+                                    <th scope="col">Dom</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="col-md-5">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#newEvent">
+                                Crea nuovo evento
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="newEvent" tabindex="-1" aria-labelledby="newEventLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="newEventLabel">Crea nuovo evento</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form id="new-event-form">
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="event-name" class="form-label">Nome evento</label>
+                                                    <input type="text" class="form-control" id="event-name" name="event-name" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="event-description" class="form-label">Descrizione</label>
+                                                    <textarea class="form-control" id="event-description" name="event-description" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                                                <button type="submit" class="btn btn-primary">Salva</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- qui andrà la lista degli eventi del giorno selezionato -->
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">Evento 1</h5>
+                                        <small>01/01/2023</small>
+                                    </div>
+                                    <p class="mb-1">Descrizione breve dell'evento 1</p>
+                                    <small>Luogo dell'evento 1</small>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">Evento 2</h5>
+                                        <small>02/01/2023</small>
+                                    </div>
+                                    <p class="mb-1">Descrizione breve dell'evento 2</p>
+                                    <small>Luogo dell'evento 2</small>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">Evento 3</h5>
+                                        <small>03/01/2023</small>
+                                    </div>
+                                    <p class="mb-1">Descrizione breve dell'evento 3</p>
+                                    <small>Luogo dell'evento 3</small>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+        </div>
+
+</section>
+
+</body>
+</html>

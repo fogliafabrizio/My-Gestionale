@@ -1,7 +1,9 @@
 package it.fogliafabrizio.mygestionale.controller;
 
+import it.fogliafabrizio.mygestionale.model.Events;
 import it.fogliafabrizio.mygestionale.model.UserGroups;
 import it.fogliafabrizio.mygestionale.model.Users;
+import it.fogliafabrizio.mygestionale.repository.EventsRepository;
 import it.fogliafabrizio.mygestionale.repository.UserGroupsRepository;
 import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +27,9 @@ public class APIController {
 
     @Autowired
     private UserGroupsRepository groupsRepository;
+
+    @Autowired
+    private EventsRepository eventsRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -102,6 +108,59 @@ public class APIController {
             return "BIRTH_NOT_OK";
         }
 
+    }
+
+    @PostMapping("/calendar/getEvents")
+    public List<Events> getEvents(
+            @RequestParam int day,
+            @RequestParam int month,
+            @RequestParam int year
+    ){
+        List<Events> events = new ArrayList<>();
+        Calendar data = Calendar.getInstance();
+        data.set(Calendar.DAY_OF_MONTH, day);
+        switch (month){
+            case 1:
+                data.set(Calendar.MONTH, Calendar.JANUARY);
+                break;
+            case 2:
+                data.set(Calendar.MONTH, Calendar.FEBRUARY);
+                break;
+            case 3:
+                data.set(Calendar.MONTH, Calendar.MARCH);
+                break;
+            case 4:
+                data.set(Calendar.MONTH, Calendar.APRIL);
+                break;
+            case 5:
+                data.set(Calendar.MONTH, Calendar.MAY);
+                break;
+            case 6:
+                data.set(Calendar.MONTH, Calendar.JUNE);
+                break;
+            case 7:
+                data.set(Calendar.MONTH, Calendar.JULY);
+                break;
+            case 8:
+                data.set(Calendar.MONTH, Calendar.AUGUST);
+                break;
+            case 9:
+                data.set(Calendar.MONTH, Calendar.SEPTEMBER);
+                break;
+            case 10:
+                data.set(Calendar.MONTH, Calendar.OCTOBER);
+                break;
+            case 11:
+                data.set(Calendar.MONTH, Calendar.NOVEMBER);
+                break;
+            case 12:
+                data.set(Calendar.MONTH, Calendar.DECEMBER);
+                break;
+        }
+        data.set(Calendar.YEAR, year);
+        System.out.println(data);
+        events = eventsRepository.findByDate(data);
+        return events;
     }
 
     /*@PostMapping("/user/groups/{id}")

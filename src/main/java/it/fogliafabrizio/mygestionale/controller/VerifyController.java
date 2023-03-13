@@ -38,7 +38,9 @@ public class VerifyController {
             return "verificationUser_success";
         } else {
             model.addAttribute("title", "Error Verification");
-            return "verificationUser_error";
+            model.addAttribute("errorMessageTitle", "Qualcosa è andato storto...");
+            model.addAttribute("errorMessageSubtitle", "L'account è già abilitato o c'è stato un errore interno del server. Per favore contattaci se riscontri problemi.");
+            return "error";
         }
     }
 

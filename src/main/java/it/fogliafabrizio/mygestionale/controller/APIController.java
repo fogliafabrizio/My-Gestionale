@@ -9,6 +9,7 @@ import it.fogliafabrizio.mygestionale.repository.UserGroupsRepository;
 import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import it.fogliafabrizio.mygestionale.service.EventService;
 import it.fogliafabrizio.mygestionale.service.impl.UserServiceImpl;
+import jdk.jfr.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -116,5 +117,21 @@ public class APIController {
     ) {
 
         return eventService.createEvent(eventRequest, id);
+    }
+
+    @PostMapping("/calendar/modifyEvent/{id}")
+    public String modifyEvent(
+            @RequestBody EventRequest eventRequest,
+            @PathVariable Long id
+            ){
+        return eventService.modifyEvent(eventRequest,id);
+    }
+
+    @PostMapping("/calendar/deleteEvent/{id}")
+    public void deleteEvent(
+            @PathVariable Long id
+    ){
+        Events events = eventsRepository.findById(id).orElseThrow();
+        eventsRepository.delete(events);
     }
 }

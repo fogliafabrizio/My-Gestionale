@@ -233,4 +233,73 @@ public class EventServiceImpl implements EventService {
 
         return allEvents;
     }
+
+    @Override
+    public String modifyEvent(EventRequest eventRequest, Long id) {
+        Events event = eventsRepository.findById(id).orElseThrow();
+        // Name
+        event.setName(eventRequest.getEventName());
+        // Descrizione
+        event.setDescription(eventRequest.getEventDescription());
+        // Location
+        event.setLocation(eventRequest.getEventLocation());
+        // Link
+        event.setLink(eventRequest.getEventLink());
+        // Visibilità
+        event.setVisibility(eventRequest.getEventVisibility());
+        // Controllo data - non può essere prima di Oggi!
+        if(!eventRequest.getEventDate().isBefore(LocalDate.now())) {
+            // Data
+            Calendar data = Calendar.getInstance();
+            data.set(eventRequest.getEventDate().getYear(), eventRequest.getEventDate().getMonthValue() - 1, eventRequest.getEventDate().getDayOfMonth());
+            event.setDate(data);
+        } else {
+            return "BEFORE_TODAY";
+        }
+        // All day
+        event.setAllDay(eventRequest.isAllDayEvent());
+        // Se non è All day - set Inizio ora e Fine ora
+        if(!eventRequest.isAllDayEvent()) {
+            //  Controllo che ora inizio sia prima di ora di fine
+            //  Se l'ora di fine è prima dell'ora di inizio
+            if(eventRequest.getEventEndTime().isBefore(eventRequest.getEventStartTime())){
+                return "ERR_TIME";
+            } else if (eventRequest.getEventStartTime().equals(eventRequest.getEventEndTime())) {
+                //  Se l'ora di inizio è uguale a quella di fine
+                return "ERR_TIME";
+            } else {
+                event.setBeginHour(eventRequest.getEventStartTime());
+                event.setEndHour(eventRequest.getEventEndTime());
+            }
+        } else {
+            event.setBeginHour(null);
+            event.setEndHour(null);
+        }
+        // All User - In questo modo se un utente nuovo viene creato, non serve che sia inserito tra gli invitati dopo
+        event.setAllUserInvitated(eventRequest.isAllUsers());
+        //   Se tutti gli utenti sono invitati - non segno gli invitati
+        if(!eventRequest.isAllUsers()) {
+            List<Long> idUserInvitated = eventRequest.getUserIds();
+            List<Users> userInvitated = new ArrayList<>();
+            for (Long userId : idUserInvitated) {
+                Users user = usersRepository.findById(userId).orElseThrow();
+                userInvitated.add(user);
+            }
+            event.setInvitedUsers(userInvitated);
+        } else {
+            event.setInvitedUsers(new ArrayList<>());
+        }
+
+        // Gruppi invitati
+        List<Long> idGroupInvitated = eventRequest.getGroupIds();
+        List<UserGroups> groupInvitated = new ArrayList<>();
+        for (Long groupId : idGroupInvitated){
+            UserGroups group = groupsRepository.findById(groupId).orElseThrow();
+            groupInvitated.add(group);
+        }
+        event.setInvitedGroups(groupInvitated);
+        event.setFestivity(false);
+        eventsRepository.save(event);
+        return "OK";
+    }
 }

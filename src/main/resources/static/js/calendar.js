@@ -122,38 +122,22 @@ $(document).ready(function(){
                  contentType: 'application/json',
                  success: function(response) {
                      // gestisci la risposta dal server
-                     if (response === "OK") {
-                             // cancella i valori del modal
-                             $("#event-name").val("");
-                             $("#event-description").val("");
-                             $("#event-location").val("");
-                             $("#event-visibility").val("");
-                             $("#event-date").val("");
-                             $("#event-start-time").val("");
-                             $("#event-end-time").val("");
-                             $("#all-day-event").prop("checked", false);
-                             $("input[name^='user-']").prop("checked", false);
-                             $("input[name^='group-']").prop("checked", false);
-                             $("#allUsers").prop("checked", false);
-                             $("#allGroups").prop("checked", false);
-                             $startTimeInput.prop('disabled', false);
-                             $endTimeInput.prop('disabled', false);
+                     if (response === 'OK') {
+                    // Effettua il redirect
+                    window.location.href = '/calendar';
 
-                             // mostra un messaggio di successo
-                             $("#saveMessage").removeClass("alert alert-danger");
-                             $("#saveMessage").addClass("alert alert-success").text("Evento creato con successo.");
-                         } else if (response === "BEFORE_TODAY") {
-                             // mostra un messaggio di errore
-                             $("#saveMessage").removeClass("alert alert-success");
-                             $("#saveMessage").addClass("alert alert-danger").text("La data dell'evento non può essere precedente a oggi.");
-                         } else if (response === "ERR_TIME") {
-                            $("#saveMessage").removeClass("alert alert-success");
-                            $("#saveMessage").addClass("alert alert-danger").text("L'ora di inizio deve essere precedente all'orario di fine");
-                         }
-                         $("#btnNewEvent").on("click", function(){
-                            $("#saveMessage").removeClass("alert alert-success alert-danger");
-                            $("#saveMessage").empty();
-                         });
+                    } else if (response === "BEFORE_TODAY") {
+                         // mostra un messaggio di errore
+                         $("#saveMessage").removeClass("alert alert-success");
+                         $("#saveMessage").addClass("alert alert-danger").text("La data dell'evento non può essere precedente a oggi.");
+                     } else if (response === "ERR_TIME") {
+                        $("#saveMessage").removeClass("alert alert-success");
+                        $("#saveMessage").addClass("alert alert-danger").text("L'ora di inizio deve essere precedente all'orario di fine");
+                     }
+                     $("#btnNewEvent").on("click", function(){
+                        $("#saveMessage").removeClass("alert alert-success alert-danger");
+                        $("#saveMessage").empty();
+                     });
                  },
                  error: function(error) {
                      // gestisci l'errore dal server

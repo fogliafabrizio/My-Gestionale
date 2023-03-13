@@ -36,8 +36,10 @@ public class ResetController {
             model.addAttribute("code", code);
             return "resetPassword_success";
         } else {
-            model.addAttribute("title", "Reset Password");
-            return "resetPassword_error";
+            model.addAttribute("title", "Reset Error");
+            model.addAttribute("errorMessageTitle", "Qualcosa è andato storto...");
+            model.addAttribute("errorMessageSubtitle", "Non è stata reimpostata la password o c'è stato un errore interno del server. Per favore contattaci se riscontri problemi.");
+            return "error";
         }
     }
 

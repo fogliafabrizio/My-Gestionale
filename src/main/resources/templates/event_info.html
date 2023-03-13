@@ -75,13 +75,15 @@
                                 </td>
                             </tr>
                             <th:block th:if="${event.invitedGroups.size() > 0}">
-                                <th scope="col">Gruppi invitati</th>
-                                <td>
-                                    <ul>
-                                        <li th:each="invitedGroup : ${event.invitedGroups}"
-                                            th:text="${invitedGroup.name}"></li>
-                                    </ul>
-                                </td>
+                                <tr>
+                                    <th scope="col">Gruppi invitati</th>
+                                    <td>
+                                        <ul>
+                                            <li th:each="invitedGroup : ${event.invitedGroups}"
+                                                th:text="${invitedGroup.name}"></li>
+                                        </ul>
+                                    </td>
+                                </tr>
                             </th:block>
 
 
@@ -97,8 +99,151 @@
         <div class="row justify-content-center mt-4">
             <div class="col-md-1 d-flex justify-content-center">
                 <a th:href="@{/calendar}" class="btn btn-secondary mx-2 rounded-circle"><i class="fa fa-arrow-left"></i></a>
-                <a th:href="@{/calendar}" th:if="${event.userCreator == user}" class="btn btn-warning mx-2 rounded-circle"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a th:href="@{/calendar}" th:if="${event.userCreator == user}" class="btn btn-danger mx-2 rounded-circle"><i class="fa-solid fa-trash"></i></a>
+                <th:block th:if="${event.userCreator == user}">
+                    <button type="button" class="btn btn-warning mx-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modifyEvent">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modifyEvent" tabindex="-1" aria-labelledby="modifyEventLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modifyEventLabel">Modifica Evento</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="/api/calendar/modifyEvent" method="POST" id="new-event-form">
+                                    <div class="modal-body">
+                                        <div id="saveMessage" class="text-center"></div>
+                                        <div class="mb-3">
+                                            <label for="event-name" class="form-label">Nome evento</label>
+                                            <input type="text" class="form-control" th:value="${event.name}" id="event-name" name="event-name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="event-description" class="form-label">Descrizione</label>
+                                            <textarea class="form-control" th:text="${event.description}" id="event-description" name="event-description"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="event-location" class="form-label">Luogo</label>
+                                            <input type="text" class="form-control" th:value="${event.location}" id="event-location" name="event-location">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="event-link" class="form-label">Link collegato</label>
+                                            <input type="text" class="form-control" th:value="${event.link}" id="event-link" name="event-link">
+                                        </div>
+                                        <!-- TODO: Mettere SPAN https:// e controllare input link -->
+                                        <div class="mb-3">
+                                            <label for="event-visibility" class="form-label">Visibilità</label>
+                                            <select class="form-select" id="event-visibility" name="event-visibility" required>
+                                                <option th:each="visibility : ${T(it.fogliafabrizio.mygestionale.model.Visibility).values()}" th:value="${visibility}" th:text="${visibility}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="event-date" class="col-sm-3 col-form-label">Data</label>
+                                            <div class="col-sm-9">
+                                                <input type="date" class="form-control" th:value="${#dates.format(event.date, 'yyyy-MM-dd')}" id="event-date" name="event-date" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="event-time" class="col-sm-3 col-form-label">Ora di inizio / fine</label>
+                                            <div class="col-sm-9">
+                                                <div class="row">
+                                                    <div class="col-sm-5">
+                                                        <input type="time" class="form-control" th:value="${event.beginHour}" id="event-start-time" name="event-start-time" required>
+                                                    </div>
+                                                    <div class="col-sm-2 text-center">
+                                                        <span class="input-group-text d-flex justify-content-center align-items-center">-</span>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <input type="time" class="form-control" th:value="${event.endHour}" id="event-end-time" name="event-end-time" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" th:checked="${event.allDay}" type="checkbox" id="all-day-event" name="all-day-event">
+                                                            <label class="form-check-label" for="all-day-event">
+                                                                Tutto il giorno
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h4>Utenti</h4>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" th:checked="${event.allUserInvitated}" value="0" type="checkbox" id="allUsers" name="allUsers">
+                                                        <label class="form-check-label" for="allUsers">
+                                                            Tutti gli utenti
+                                                        </label>
+                                                    </div>
+                                                    <div th:each="user : ${usersList}">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" th:checked="${event.invitedUsers.contains(user)}" th:value="${user.id} "th:id="'user-' + ${user.id}" th:name="'user-' + ${user.id}">
+                                                            <label class="form-check-label" th:attr="for='user-' + ${user.id}" th:text="${user.firstName} + ' ' + ${user.lastName}"></label>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <!-- Aggiungi altre checkbox per gli utenti -->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div th:if="${not #lists.isEmpty(groupsList)}">
+                                                    <h4>Gruppi</h4>
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" value="0" type="checkbox" id="allGroups" name="allGroups">
+                                                            <label class="form-check-label" for="allGroups">
+                                                                Tutti i gruppi
+                                                            </label>
+                                                        </div>
+                                                        <div th:each="group : ${groupsList}">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" th:checked="${event.invitedGroups.contains(group)}" th:value="${group.id}" th:id="'group-' + ${group.id}" th:name="'group-' + ${group.id}">
+                                                                <label class="form-check-label" th:attr="for='group-' + ${group.id}" th:text="${group.name}"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Aggiungi altre checkbox per i gruppi -->
+                                                        <input type="hidden" th:value="${event.id}" id="id">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                                        <button type="submit" class="btn btn-primary">Salva</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger mx-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#deleteEvent">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                    <!-- Modal delete -->
+                    <div class="modal fade" id="deleteEvent" tabindex="-1" aria-labelledby="deleteEventLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="deleteEventLabel">Cancella Evento</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Sei sicuro di voler cancellare questo evento?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-danger" id="deleteButton">Cancella evento</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
             </div>
         </div>
     </div>

@@ -7,9 +7,9 @@
     <div class="container-fluid">
         <div class="row justify-content-center align-items-center" style="height: 100vh;">
             <div class="col-md-6 text-center">
-                <h1 class="text-white">Qualcosa è andato storto...</h1>
-                <p class="text-white">L'account è già abilitato o c'è stato un errore interno del server. Per favore contattaci se riscontri problemi.</p>
-                <a class="btn btn-primary" href="/signin" role="button">Torna alla pagina di login</a>
+                <h1 class="text-white" th:text="${errorMessageTitle}"></h1>
+                <p class="text-white" th:text="${errorMessageSubtitle}"></p>
+                <a class="btn btn-primary" th:href="@{/}" role="button">Torna alla pagina principale</a>
             </div>
         </div>
     </div>

@@ -12,4 +12,6 @@ public interface EventService {
     public List<Events> generateEvents(Long id, int day, int month, int year);
 
     public List<Events> generateAllEvents(Long id, int month, int year);
+
+    public String modifyEvent(EventRequest eventRequest, Long id);
 }

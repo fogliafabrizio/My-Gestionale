@@ -9,9 +9,11 @@ import it.fogliafabrizio.mygestionale.repository.UserGroupsRepository;
 import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import it.fogliafabrizio.mygestionale.service.EventService;
 import it.fogliafabrizio.mygestionale.service.impl.UserServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import jdk.jfr.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -113,10 +115,11 @@ public class APIController {
     @PostMapping("/calendar/createEvent/{id}")
     public String createEvent(
             @RequestBody EventRequest eventRequest,
-            @PathVariable Long id
+            @PathVariable Long id,
+            HttpServletRequest request
     ) {
-
-        return eventService.createEvent(eventRequest, id);
+        String url = request.getRequestURL().toString().replace(request.getServletPath(), "");
+        return eventService.createEvent(eventRequest, id, url);
     }
 
     @PostMapping("/calendar/modifyEvent/{id}")

@@ -5,8 +5,11 @@ import it.fogliafabrizio.mygestionale.repository.EventsRepository;
 import it.fogliafabrizio.mygestionale.repository.UserGroupsRepository;
 import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import it.fogliafabrizio.mygestionale.service.EventService;
+import jakarta.mail.internet.MimeMessage;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,9 +29,11 @@ public class EventServiceImpl implements EventService {
     @Autowired
     private EventsRepository eventsRepository;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @Override
-    public String createEvent(EventRequest eventRequest, Long id) {
+    public String createEvent(EventRequest eventRequest, Long id, String url) {
         Events event = new Events();
         // Name
         event.setName(eventRequest.getEventName());
@@ -88,8 +93,61 @@ public class EventServiceImpl implements EventService {
         event.setInvitedGroups(groupInvitated);
         event.setUserCreator(usersRepository.findById(id).orElseThrow());
         event.setFestivity(false);
-        eventsRepository.save(event);
+        Events eventSave = eventsRepository.save(event);
+
+        sendInvitationMail(eventSave, eventRequest, url);
         return "OK";
+    }
+
+    private void sendInvitationMail(Events event, EventRequest eventRequest, String url) {
+        String from = "info@rationence.eu";
+        String subject = "Sei stato invitato ad un nuovo evento!";
+        String content = "Ciao [[name]]! <br> Sei stato invitato a questo evento da [[userCreator]]: <br> <h3> [[eventName]] </h3><br> Data e Ora: [[data]] - [[orario]]<br> Per vedere maggiori dettagli <a href=\"[[URL]]\" target=\"_self\">Clicca qui</a> <br> Grazie, <br> Rationence.";
+        List<Long> idUserInvitated = eventRequest.getUserIds();
+        List<Long> idGroupsInvitated = eventRequest.getGroupIds();
+        List<String> emailUser = new ArrayList<>();
+        content=content.replace("[[userCreator]]", event.getUserCreator().getFirstName() + " " + event.getUserCreator().getLastName());
+        content=content.replace("[[eventName]]", event.getName());
+        content=content.replace("[[data]]", eventRequest.getEventDate().toString());
+        if(event.isAllDay()){
+            content=content.replace("[[orario]]", "Tutto il giorno.");
+        } else {
+            content=content.replace("[[orario]]", "dalle ore " + eventRequest.getEventStartTime() + " alle ore" + eventRequest.getEventEndTime());
+        }
+        //  TODO: Sistemare creazione mail
+        String siteUrl = url+"/calendar/event/"+ event.getId();
+        content=content.replace("[[URL]]", siteUrl);
+
+        //  Fare la lista di mail
+        for (Long id : idUserInvitated){
+            emailUser.add(usersRepository.findById(id).get().getEmail());
+        }
+        for (Long id : idGroupsInvitated){
+            List<Users> users = (groupsRepository.findById(id).get().getUserMembers());
+            for(Users user : users){
+                String email = user.getEmail();
+                if(!emailUser.contains(email)){
+                    emailUser.add(email);
+                }
+            }
+        }
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message);
+            for(String to: emailUser){
+                helper.setFrom(from);
+                helper.setTo(to);
+                helper.setSubject(subject);
+                Users userSaved = usersRepository.findByEmail(to);
+                content=content.replace("[[name]]", userSaved.getFirstName());
+
+                helper.setText(content, true);
+
+                javaMailSender.send(message);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

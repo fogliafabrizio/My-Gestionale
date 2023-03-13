@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EventService {
 
-    public String createEvent(EventRequest eventRequest, Long id);
+    public String createEvent(EventRequest eventRequest, Long id, String url);
 
     public List<Events> generateEvents(Long id, int day, int month, int year);
 

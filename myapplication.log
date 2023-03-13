@@ -21609,3 +21609,113 @@ java.lang.NullPointerException: Cannot invoke "it.fogliafabrizio.mygestionale.mo
 2023-03-13T22:05:43.152+01:00  INFO 25692 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2023-03-13T22:05:43.152+01:00  INFO 25692 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2023-03-13T22:05:43.153+01:00  INFO 25692 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2023-03-13T22:17:05.489+01:00  WARN 25692 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m53s316ms).
+2023-03-13T22:47:45.691+01:00  INFO 25692 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-03-13T22:47:45.697+01:00  INFO 25692 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-03-13T22:47:45.699+01:00  INFO 25692 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-03-13T22:47:50.752+01:00  INFO 26269 --- [main] i.f.m.MyGestionaleApplication            : Starting MyGestionaleApplication using Java 17.0.5 with PID 26269 (/Users/leaf23/Documents/Spring/My-Gestionale-2/target/classes started by leaf23 in /Users/leaf23/Documents/Spring/My-Gestionale-2)
+2023-03-13T22:47:50.753+01:00  INFO 26269 --- [main] i.f.m.MyGestionaleApplication            : No active profile set, falling back to 1 default profile: "default"
+2023-03-13T22:47:51.128+01:00  INFO 26269 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-03-13T22:47:51.161+01:00  INFO 26269 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 29 ms. Found 3 JPA repository interfaces.
+2023-03-13T22:47:51.576+01:00  INFO 26269 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-03-13T22:47:51.582+01:00  INFO 26269 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-03-13T22:47:51.583+01:00  INFO 26269 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-03-13T22:47:51.675+01:00  INFO 26269 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-03-13T22:47:51.675+01:00  INFO 26269 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 902 ms
+2023-03-13T22:47:51.796+01:00  INFO 26269 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-03-13T22:47:51.822+01:00  INFO 26269 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.7.Final
+2023-03-13T22:47:51.945+01:00  INFO 26269 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-03-13T22:47:52.077+01:00  INFO 26269 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4a6a6a69
+2023-03-13T22:47:52.078+01:00  INFO 26269 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-03-13T22:47:52.121+01:00  INFO 26269 --- [main] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2023-03-13T22:47:52.624+01:00  INFO 26269 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-03-13T22:47:52.629+01:00  INFO 26269 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-03-13T22:47:53.017+01:00  WARN 26269 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-03-13T22:47:53.046+01:00  INFO 26269 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2023-03-13T22:47:53.106+01:00  INFO 26269 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7eb370c5, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@26c24e5, org.springframework.security.web.context.SecurityContextHolderFilter@6b6b4177, org.springframework.security.web.header.HeaderWriterFilter@4ba56bbe, org.springframework.security.web.authentication.logout.LogoutFilter@6bd2c51d, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4467088e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@70d61624, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@18be7f57, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@29509774, org.springframework.security.web.access.ExceptionTranslationFilter@7e047d85, org.springframework.security.web.access.intercept.AuthorizationFilter@6d3dc0c5]
+2023-03-13T22:47:53.184+01:00  INFO 26269 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-13T22:47:53.189+01:00  INFO 26269 --- [main] i.f.m.MyGestionaleApplication            : Started MyGestionaleApplication in 2.762 seconds (process running for 3.013)
+2023-03-13T22:47:56.645+01:00  INFO 26269 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-03-13T22:47:56.645+01:00  INFO 26269 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-03-13T22:47:56.648+01:00  INFO 26269 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2023-03-13T22:50:14.446+01:00  INFO 26269 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-03-13T22:50:14.449+01:00  INFO 26269 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-03-13T22:50:14.456+01:00  INFO 26269 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-03-13T22:50:16.379+01:00  INFO 26292 --- [main] i.f.m.MyGestionaleApplication            : Starting MyGestionaleApplication using Java 17.0.5 with PID 26292 (/Users/leaf23/Documents/Spring/My-Gestionale-2/target/classes started by leaf23 in /Users/leaf23/Documents/Spring/My-Gestionale-2)
+2023-03-13T22:50:16.380+01:00  INFO 26292 --- [main] i.f.m.MyGestionaleApplication            : No active profile set, falling back to 1 default profile: "default"
+2023-03-13T22:50:16.704+01:00  INFO 26292 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-03-13T22:50:16.733+01:00  INFO 26292 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 25 ms. Found 3 JPA repository interfaces.
+2023-03-13T22:50:17.015+01:00  INFO 26292 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-03-13T22:50:17.020+01:00  INFO 26292 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-03-13T22:50:17.020+01:00  INFO 26292 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-03-13T22:50:17.061+01:00  INFO 26292 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-03-13T22:50:17.061+01:00  INFO 26292 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 661 ms
+2023-03-13T22:50:17.124+01:00  INFO 26292 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-03-13T22:50:17.142+01:00  INFO 26292 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.7.Final
+2023-03-13T22:50:17.234+01:00  INFO 26292 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-03-13T22:50:17.296+01:00  INFO 26292 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3a861417
+2023-03-13T22:50:17.297+01:00  INFO 26292 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-03-13T22:50:17.321+01:00  INFO 26292 --- [main] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2023-03-13T22:50:17.693+01:00  INFO 26292 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-03-13T22:50:17.696+01:00  INFO 26292 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-03-13T22:50:18.026+01:00  WARN 26292 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-03-13T22:50:18.056+01:00  INFO 26292 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2023-03-13T22:50:18.113+01:00  INFO 26292 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@9198fe3, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6cc9f35d, org.springframework.security.web.context.SecurityContextHolderFilter@7b50e70a, org.springframework.security.web.header.HeaderWriterFilter@6b6b4177, org.springframework.security.web.authentication.logout.LogoutFilter@4a467f08, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@7eb370c5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@58192546, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@34c79268, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@f61b92d, org.springframework.security.web.access.ExceptionTranslationFilter@8ae7e03, org.springframework.security.web.access.intercept.AuthorizationFilter@7d0bbc49]
+2023-03-13T22:50:18.192+01:00  INFO 26292 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-13T22:50:18.196+01:00  INFO 26292 --- [main] i.f.m.MyGestionaleApplication            : Started MyGestionaleApplication in 2.046 seconds (process running for 2.311)
+2023-03-13T22:50:29.068+01:00  INFO 26292 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-03-13T22:50:29.071+01:00  INFO 26292 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-03-13T22:50:29.074+01:00  INFO 26292 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-03-13T22:50:34.113+01:00  INFO 26308 --- [main] i.f.m.MyGestionaleApplication            : Starting MyGestionaleApplication using Java 17.0.5 with PID 26308 (/Users/leaf23/Documents/Spring/My-Gestionale-2/target/classes started by leaf23 in /Users/leaf23/Documents/Spring/My-Gestionale-2)
+2023-03-13T22:50:34.116+01:00  INFO 26308 --- [main] i.f.m.MyGestionaleApplication            : No active profile set, falling back to 1 default profile: "default"
+2023-03-13T22:50:34.636+01:00  INFO 26308 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-03-13T22:50:34.683+01:00  INFO 26308 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 41 ms. Found 3 JPA repository interfaces.
+2023-03-13T22:50:35.058+01:00  INFO 26308 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-03-13T22:50:35.069+01:00  INFO 26308 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-03-13T22:50:35.069+01:00  INFO 26308 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-03-13T22:50:35.129+01:00  INFO 26308 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-03-13T22:50:35.129+01:00  INFO 26308 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 977 ms
+2023-03-13T22:50:35.198+01:00  INFO 26308 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-03-13T22:50:35.218+01:00  INFO 26308 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.7.Final
+2023-03-13T22:50:35.335+01:00  INFO 26308 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-03-13T22:50:35.432+01:00  INFO 26308 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5f0677f3
+2023-03-13T22:50:35.432+01:00  INFO 26308 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-03-13T22:50:35.469+01:00  INFO 26308 --- [main] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2023-03-13T22:50:35.981+01:00  INFO 26308 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-03-13T22:50:35.987+01:00  INFO 26308 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-03-13T22:50:36.459+01:00  WARN 26308 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-03-13T22:50:36.490+01:00  INFO 26308 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2023-03-13T22:50:36.559+01:00  INFO 26308 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2048255a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7e00a43e, org.springframework.security.web.context.SecurityContextHolderFilter@7fac3ce0, org.springframework.security.web.header.HeaderWriterFilter@6ef5e46a, org.springframework.security.web.authentication.logout.LogoutFilter@54602d5a, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@150963fe, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@14bb16ee, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6c8b6782, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3f4b59fd, org.springframework.security.web.access.ExceptionTranslationFilter@78395e28, org.springframework.security.web.access.intercept.AuthorizationFilter@eb1d7c8]
+2023-03-13T22:50:36.646+01:00  INFO 26308 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-13T22:50:36.651+01:00  INFO 26308 --- [main] i.f.m.MyGestionaleApplication            : Started MyGestionaleApplication in 2.795 seconds (process running for 3.489)
+2023-03-13T22:50:43.884+01:00  INFO 26308 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-03-13T22:50:43.885+01:00  INFO 26308 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-03-13T22:50:43.887+01:00  INFO 26308 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2023-03-13T22:53:33.952+01:00  INFO 26308 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-03-13T22:53:33.955+01:00  INFO 26308 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-03-13T22:53:33.959+01:00  INFO 26308 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-03-13T22:53:49.596+01:00  INFO 26382 --- [main] i.f.m.MyGestionaleApplication            : Starting MyGestionaleApplication using Java 17.0.5 with PID 26382 (/Users/leaf23/Documents/Spring/My-Gestionale-2/target/classes started by leaf23 in /Users/leaf23/Documents/Spring/My-Gestionale-2)
+2023-03-13T22:53:49.598+01:00  INFO 26382 --- [main] i.f.m.MyGestionaleApplication            : No active profile set, falling back to 1 default profile: "default"
+2023-03-13T22:53:49.877+01:00  INFO 26382 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-03-13T22:53:49.906+01:00  INFO 26382 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 24 ms. Found 3 JPA repository interfaces.
+2023-03-13T22:53:50.144+01:00  INFO 26382 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-03-13T22:53:50.149+01:00  INFO 26382 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-03-13T22:53:50.149+01:00  INFO 26382 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-03-13T22:53:50.196+01:00  INFO 26382 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-03-13T22:53:50.196+01:00  INFO 26382 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 576 ms
+2023-03-13T22:53:50.259+01:00  INFO 26382 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-03-13T22:53:50.277+01:00  INFO 26382 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.7.Final
+2023-03-13T22:53:50.380+01:00  INFO 26382 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-03-13T22:53:50.453+01:00  INFO 26382 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5f0677f3
+2023-03-13T22:53:50.453+01:00  INFO 26382 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-03-13T22:53:50.479+01:00  INFO 26382 --- [main] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2023-03-13T22:53:50.883+01:00  INFO 26382 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-03-13T22:53:50.890+01:00  INFO 26382 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-03-13T22:53:51.257+01:00  WARN 26382 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-03-13T22:53:51.288+01:00  INFO 26382 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2023-03-13T22:53:51.359+01:00  INFO 26382 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2048255a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7e00a43e, org.springframework.security.web.context.SecurityContextHolderFilter@7fac3ce0, org.springframework.security.web.header.HeaderWriterFilter@6ef5e46a, org.springframework.security.web.authentication.logout.LogoutFilter@54602d5a, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@150963fe, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@14bb16ee, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6c8b6782, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3f4b59fd, org.springframework.security.web.access.ExceptionTranslationFilter@78395e28, org.springframework.security.web.access.intercept.AuthorizationFilter@eb1d7c8]
+2023-03-13T22:53:51.441+01:00  INFO 26382 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-13T22:53:51.445+01:00  INFO 26382 --- [main] i.f.m.MyGestionaleApplication            : Started MyGestionaleApplication in 2.076 seconds (process running for 2.594)
+2023-03-13T22:53:54.538+01:00  INFO 26382 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-03-13T22:53:54.539+01:00  INFO 26382 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-03-13T22:53:54.547+01:00  INFO 26382 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms

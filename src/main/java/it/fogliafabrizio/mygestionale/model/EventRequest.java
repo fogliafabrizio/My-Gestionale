@@ -17,11 +17,13 @@ public class EventRequest {
     private String eventName;
     private String eventDescription;
     private String eventLocation;
-    private String eventVisibility;
+    private String eventLink;
+    private Visibility eventVisibility;
     private LocalDate eventDate;
     private LocalTime eventStartTime;
     private LocalTime eventEndTime;
     private boolean allDayEvent;
+    private boolean allUsers;
     private List<Long> userIds;
     private List<Long> groupIds;
 }

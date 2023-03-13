@@ -18,4 +18,7 @@ public interface UserGroupsRepository extends JpaRepository<UserGroups, Long> {
 
     @Query("SELECT g FROM UserGroups g WHERE g.visibility = it.fogliafabrizio.mygestionale.model.Visibility.PUBLIC OR g.userAdmin = :user")
     List<UserGroups> findPublicOrAdminGroups(@Param("user") Users user);
+
+    @Query("SELECT t FROM UserGroups t JOIN t.userMembers u WHERE u = :user")
+    public List<UserGroups> findByMemberUser(@Param("user") Users user);
 }

@@ -11,6 +11,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -63,6 +65,22 @@ public class MyGestionaleApplication implements CommandLineRunner {
 		birthday2.set(Calendar.YEAR, 1997);
 		user.setDateOfBirthday(birthday2);
 		usersRepository.save(user2);
+
+		for(int i=0; i<10; i++){
+			Users userProva = new Users();
+			userProva.setFirstName("Prova " + i);
+			userProva.setLastName("Prova " + i);
+			userProva.setEmail("prova" + i);
+			userProva.setPassword(passwordEncoder.encode("prova" + i));
+			userProva.setRole(Role.USER);
+			userProva.setEnabled(true);
+			Calendar birthdayProva = Calendar.getInstance();
+			birthdayProva.set(Calendar.DAY_OF_MONTH, i);
+			birthdayProva.set(Calendar.MONTH, Calendar.OCTOBER);
+			birthdayProva.set(Calendar.YEAR, 1997);
+			user.setDateOfBirthday(birthdayProva);
+			usersRepository.save(userProva);
+		}
 
 		UserGroups groups = new UserGroups();
 		groups.setName("Prova22");
@@ -236,9 +254,7 @@ public class MyGestionaleApplication implements CommandLineRunner {
 			eventsRepository.save(events);
 		}
 
-
 */
-
 	}
 
 }

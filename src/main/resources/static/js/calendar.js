@@ -2,6 +2,7 @@ $(document).ready(function(){
     var yearInput = document.getElementById('year-input');
     var prevYearBtn = document.getElementById('prev-year-btn');
     var nextYearBtn = document.getElementById('next-year-btn');
+    var idOwner = $("#id").val();
 
     //  FORM CREA EVENTO
 
@@ -31,9 +32,13 @@ $(document).ready(function(){
 
     // Selezione del checkbox "Tutti gli utenti"
       $('#allUsers').click(function() {
+        var select = $('#event-visibility'); // seleziona la select
         if($(this).is(':checked')) {
+        select.val('PUBLIC'); // disabilita la select impostando il valore su "PUBLIC"
+        select.prop('disabled', true);
           $('input[name^="user-"]').prop('checked', true);
         } else {
+        select.prop('disabled', false);
           $('input[name^="user-"]').prop('checked', false);
         }
       });
@@ -48,7 +53,7 @@ $(document).ready(function(){
       });
 
     const allGroupsCheckbox = $('#allGroups');
-      const groupCheckboxes = $('input[name^="group-"]');
+    const groupCheckboxes = $('input[name^="group-"]');
 
       // Aggiungere l'event listener per il checkbox 'Tutti i gruppi'
       allGroupsCheckbox.on('change', function() {
@@ -67,12 +72,9 @@ $(document).ready(function(){
       });
 
       // seleziona il form e ascolta l'evento submit
-        $('#new-event-form').submit(function(event) {
+      $('#new-event-form').submit(function(event) {
           // evita il submit di default del form
           event.preventDefault();
-
-          var idOwner = $("#id").val();
-          console.log(idOwner);
 
           // ottieni tutti i checkbox degli utenti
           var userCheckboxes = $('input[id^="user-"]');
@@ -101,16 +103,16 @@ $(document).ready(function(){
                  eventName: $('#event-name').val(),
                  eventDescription: $('#event-description').val(),
                  eventLocation: $('#event-location').val(),
+                 eventLink: $('#event-link').val(),
                  eventVisibility: $('#event-visibility').val(),
                  eventDate: $('#event-date').val(),
                  eventStartTime: $('#event-start-time').val(),
                  eventEndTime: $('#event-end-time').val(),
                  allDayEvent: $('#all-day-event').prop('checked'),
+                 allUsers : $('#allUsers').prop('checked'),
                  userIds: userIds,
                  groupIds: groupIds
              };
-
-             console.log(formData);
 
              // effettua la chiamata ajax per creare l'evento
              $.ajax({
@@ -119,9 +121,39 @@ $(document).ready(function(){
                  data: JSON.stringify(formData),
                  contentType: 'application/json',
                  success: function(response) {
-
                      // gestisci la risposta dal server
-                     console.log(response);
+                     if (response === "OK") {
+                             // cancella i valori del modal
+                             $("#event-name").val("");
+                             $("#event-description").val("");
+                             $("#event-location").val("");
+                             $("#event-visibility").val("");
+                             $("#event-date").val("");
+                             $("#event-start-time").val("");
+                             $("#event-end-time").val("");
+                             $("#all-day-event").prop("checked", false);
+                             $("input[name^='user-']").prop("checked", false);
+                             $("input[name^='group-']").prop("checked", false);
+                             $("#allUsers").prop("checked", false);
+                             $("#allGroups").prop("checked", false);
+                             $startTimeInput.prop('disabled', false);
+                             $endTimeInput.prop('disabled', false);
+
+                             // mostra un messaggio di successo
+                             $("#saveMessage").removeClass("alert alert-danger");
+                             $("#saveMessage").addClass("alert alert-success").text("Evento creato con successo.");
+                         } else if (response === "BEFORE_TODAY") {
+                             // mostra un messaggio di errore
+                             $("#saveMessage").removeClass("alert alert-success");
+                             $("#saveMessage").addClass("alert alert-danger").text("La data dell'evento non può essere precedente a oggi.");
+                         } else if (response === "ERR_TIME") {
+                            $("#saveMessage").removeClass("alert alert-success");
+                            $("#saveMessage").addClass("alert alert-danger").text("L'ora di inizio deve essere precedente all'orario di fine");
+                         }
+                         $("#btnNewEvent").on("click", function(){
+                            $("#saveMessage").removeClass("alert alert-success alert-danger");
+                            $("#saveMessage").empty();
+                         });
                  },
                  error: function(error) {
                      // gestisci l'errore dal server
@@ -177,8 +209,6 @@ $(document).ready(function(){
       if (firstDayOfWeek === -1) {
         firstDayOfWeek = 6; // se il primo giorno della settimana è domenica, considera il sabato come il settimo giorno della settimana
       }
-      console.log(daysInMonth);
-      console.log(firstDayOfWeek);
 
       // Seleziona l'elemento tbody della tabella del calendario e rimuovi tutte le righe
       var tbody = $("#calendar-table tbody");
@@ -256,23 +286,140 @@ $(document).ready(function(){
         // Aggiungi la classe "fw-bold" alla cella corrente per evidenziarla
         currentCell.addClass("fw-bold text-primary");
       }
+
+      /*
+            colora caselle con eventi:
+            -   CERCO EVENTI IN MESE E ANNO
+            -   RITORNA EVENTI
+            -   TODO: colorare caselle giorni
+      */
+      var postDataAll = {
+      month : month + 1,
+      year : year
+      }
+      $.ajax({
+            url: "/api/calendar/getAllEvents/" + idOwner,
+            type: "POST",
+            data: postDataAll,
+            success: function(response) {
+            console.log(response);
+              // gestisci la risposta della API
+              $.each(response, function(index, event) {
+                // estrai il giorno dalla data dell'evento usando moment.js
+                var day = moment(event.date).format("DD");
+                if (day.startsWith('0')) {
+                  day = day.substring(1);
+                }
+                // cerca la cella corrispondente nella tabella usando jQuery
+                var cell = $('td').filter(function() {
+                        return $(this).text() === day;
+                    });
+                // esegui qualche operazione sulla cella, ad esempio aggiungi una classe
+                cell.addClass('bg-warning-subtle');
+              });
+            },
+            error: function(xhr, status, error) {
+              // gestisci gli errori della chiamata
+              console.error(error);
+            }
+          });
+
+      // Aggiungi un evento click a tutte le celle del calendario
+          $("#calendar-table td").click(function() {
+            // Verifica se la cella cliccata ha un valore numerico
+            if ($.isNumeric($(this).text())) {
+              // Se la cella ha un valore numerico, chiama la funzione GenerateEvents con il giorno selezionato come argomento
+              var day = parseInt($(this).text());
+              console.log(day);
+              generateEvents(day, month + 1, year);
+            }
+          });
     }
 
+    //  GENERAZIONE EVENTI
     function generateEvents(dayEv, monthEv, yearEv){
         var postData = {
           day : dayEv,
           month: monthEv,
           year: yearEv
         };
+        console.log(dayEv +"/" + monthEv + "/" + yearEv);
+
+        $("#currentDate").html(dayEv + "/" + monthEv + "/" + yearEv);
+        $("#list-event").empty();
 
         // esegui la chiamata AJAX
         $.ajax({
-          url: "/api/calendar/getEvents",
+          url: "/api/calendar/getEvents/" + idOwner,
           type: "POST",
           data: postData,
           success: function(response) {
             // gestisci la risposta della API
-            console.log(response);
+
+            // crea un elemento HTML per ciascun evento
+             if (Array.isArray(response) && response.length > 0) {
+             // Ci sono eventi
+                $.each(response, function(index, event) {
+
+                if(!event.allDay){
+                    var oraInizio = event.beginHour.substring(0, 5);
+                    var oraFine = event.endHour.substring(0, 5);
+                    var orario = oraInizio + " - " + oraFine;
+                } else {
+                    var orario = "Tutto il giorno";
+                }
+
+                /*
+                    QUALI SONO I CASI POSSIBILI?
+                    -   ALL DAY OR NOT
+                    -   PUBLIC/PRIVATE/FESTIVITY/BIRTHDAY
+                */
+                if(event.festivity == true){
+                    //  FESTIVITA'
+                    $("#list-event").append(
+                    '<a class="list-group-item bg-success-subtle list-group-item-action" aria-current="true">' +
+                         '<div class="d-flex w-100 justify-content-between">' +
+                             '<h5 class="mb-1"><i class="fa-sharp fa-solid fa-gift"></i> ' + event.name + '</h5>' +
+                         '</div>' +
+                         '<p class="mb-1">' + event.description + '</p>' +
+                     '</a>');
+                } else if (event.visibility == 'PRIVATE') {
+                    //  PRIVATE
+                    $("#list-event").append(
+                    '<a href="/calendar/event/' + event.id + '"  class="list-group-item list-group-item-action" aria-current="true">' +
+                         '<div class="d-flex w-100 justify-content-between">' +
+                             '<h5 class="mb-1"><i class="fa-solid fa-lock"></i> ' + event.name + '</h5>' +
+                            ' <small>' + orario + '</small>' +
+                         '</div>' +
+                         '<small class="fst-italic">' + event.location + '</small>' +
+                     '</a>');
+                } else if (event.dob == true){
+                    //  BIRTHDAY
+                    $("#list-event").append(
+                    '<a class="list-group-item bg-warning-subtle list-group-item-action" aria-current="true">' +
+                         '<div class="d-flex w-100 justify-content-between">' +
+                             '<h5 class="mb-1"><i class="fa-solid fa-cake-candles"></i> ' + event.name + '</h5>' +
+                         '</div>' +
+                         '<p class="mb-1">' + event.description + '</p>' +
+                     '</a>');
+                } else if (event.visibility == 'PUBLIC') {
+                    //  PUBLIC
+                    $("#list-event").append(
+                    '<a href="/calendar/event/' + event.id + '" class="list-group-item list-group-item-action" aria-current="true">' +
+                         '<div class="d-flex w-100 justify-content-between">' +
+                             '<h5 class="mb-1"><i class="fa-solid fa-unlock"></i> ' + event.name + '</h5>' +
+                            ' <small>' + orario + '</small>' +
+                         '</div>' +
+                         '<small class="fst-italic">' + event.location + '</small>' +
+                     '</a>');
+                }
+
+                });
+             } else {
+                // non ci sono eventi
+                $("#list-event").append("<p class='text-center mt-3'> Non ci sono eventi in data " + dayEv + "/" + monthEv + "/" + yearEv + "</p>");
+             }
+
           },
           error: function(xhr, status, error) {
             // gestisci gli errori della chiamata

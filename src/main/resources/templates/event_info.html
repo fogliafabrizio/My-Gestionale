@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base_nav::layout(~{::section})}">
+<head>
+</head>
+<body>
+<section>
+    <div class="container-fluid mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card" style="padding:0">
+                    <div class="card-header">
+                        <div class="text-center">
+                            <h4 th:text="${event.name}"></h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th scope="col">Descrizione</th>
+                                <td th:text="${event.description}"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Luogo</th>
+                                <td th:text="${event.location}"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Link</th>
+                                <td><a th:href="@{${event.link}}">Clicca qui</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Data</th>
+                                <td th:text="${#dates.format(event.date, 'dd/MM/yyyy')}"></td>
+                            </tr>
+                            <!-- Se è allDay non metto l'orario -->
+                            <th:block th:if="${event.allDay} == false">
+                            <tr>
+                                <th scope="col">Durata</th>
+                                <td th:text="${event.beginHour} + ' - ' + ${event.endHour}"></td>
+                            </tr>
+                            </th:block>
+                            <th:block th:if="${event.allDay} == true">
+                                <tr>
+                                    <th scope="col">Durata</th>
+                                    <td>Tutta la giornata</td>
+                                </tr>
+                            </th:block>
+                            <th:block th:if="${event.visibility == T(it.fogliafabrizio.mygestionale.model.Visibility).PUBLIC}">
+                                <tr>
+                                    <th scope="col">Visibilità</th>
+                                    <td>Pubblica <i class="fa-solid fa-unlock"></i></td>
+                                </tr>
+                            </th:block>
+                            <th:block th:if="${event.visibility == T(it.fogliafabrizio.mygestionale.model.Visibility).PRIVATE}">
+                                <tr>
+                                    <th scope="col">Visibilità</th>
+                                    <td>Privata <i class="fa-solid fa-lock"></i></td>
+                                </tr>
+                            </th:block>
+                            <tr>
+                                <th scope="col">Creatore</th>
+                                <td th:text="${event.userCreator.firstName} + ' ' + ${event.userCreator.lastName}"></td>
+                            </tr>
+                            <th:block th:if="${event.allUserInvitated} == true">
+                                <th scope="col">Utenti invitati</th>
+                                <td>Tutti gli utenti sono invitati</td>
+                            </th:block>
+                            <tr th:if="${event.allUserInvitated} == false">
+                                <th scope="col">Utenti invitati</th>
+                                <td>
+                                    <ul>
+                                        <li th:each="invitedUser : ${event.invitedUsers}"
+                                            th:text="${invitedUser.firstName + ' ' + invitedUser.lastName}"></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <th:block th:if="${event.invitedGroups.size() > 0}">
+                                <th scope="col">Gruppi invitati</th>
+                                <td>
+                                    <ul>
+                                        <li th:each="invitedGroup : ${event.invitedGroups}"
+                                            th:text="${invitedGroup.name}"></li>
+                                    </ul>
+                                </td>
+                            </th:block>
+
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-1 d-flex justify-content-center">
+                <a th:href="@{/calendar}" class="btn btn-secondary mx-2 rounded-circle"><i class="fa fa-arrow-left"></i></a>
+                <a th:href="@{/calendar}" th:if="${event.userCreator == user}" class="btn btn-warning mx-2 rounded-circle"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a th:href="@{/calendar}" th:if="${event.userCreator == user}" class="btn btn-danger mx-2 rounded-circle"><i class="fa-solid fa-trash"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+</body>
+</html>

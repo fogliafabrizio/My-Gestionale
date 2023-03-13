@@ -10,6 +10,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -81,6 +85,62 @@ public class UserServiceImpl implements UserService {
 
         return user_saved;
 
+    }
+
+    @Override
+    public String changePassword(Long id, String oldPassword, String newPassword, String confirmPassword) {
+        //  Primo controllo che la vecchia password sia corretta
+        Users user = usersRepository.findById(id).orElseThrow();
+        if(!passwordEncoder.matches(oldPassword, user.getPassword())){
+            // Se la password vecchia non è corretta - ERRORE
+            return "OLD_PSW_NOT_OK";
+        } else {
+            //  La password vecchia è corretta
+            //  Secondo controllo : Le due password nuove corrispondono?
+            if(!newPassword.equals(confirmPassword)){
+                //  Le due password non corrispondono
+                return "NOT_MATCH_PSW";
+            } else {
+                // Terzo controllo : La password deve rispettare la regola REGEX
+                if (!newPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")){
+                    //  Non rispetta la regola REGEX
+                    return "NOT_REGEX_PSW";
+                } else {
+                    //  OK - Superato tutti i controlli => da salvare all'utente.
+                    String newPasswordEncoded = passwordEncoder.encode(newPassword);
+                    user.setPassword(newPasswordEncoded);
+                    usersRepository.save(user);
+                    return "OK PASSWORD";
+                }
+            }
+        }
+    }
+
+    @Override
+    public String changeBirthdate(Users user, String birthdate) {
+        if (birthdate.equals("")){
+            user.setDateOfBirthday(null);
+            usersRepository.save(user);
+            return "BIRTH_RESET";
+        } else if (birthdate.equals("Non definita")) {
+            return "BIRTH_NOT_OK";
+        }
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = sdf.parse(birthdate);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+
+            user.setDateOfBirthday(calendar);
+
+            usersRepository.save(user);
+
+            System.out.println(user.getDateOfBirthday());
+
+            return "BIRTH_OK";
+        } catch (ParseException e){
+            return "BIRTH_NOT_OK";
+        }
     }
 
     private void sendForgotEmail(Users userSaved, String url, String randomPassword) {

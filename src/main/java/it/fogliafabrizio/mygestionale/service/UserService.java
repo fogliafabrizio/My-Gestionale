@@ -14,5 +14,9 @@ public interface UserService {
 
     public Users enabledUsers(String password, String code);
 
-    Users resetPassword(Users user, String url);
+    public Users resetPassword(Users user, String url);
+
+    public String changePassword(Long id, String oldPassword, String newPassword, String confirmPassword);
+
+    public String changeBirthdate(Users user, String birthdate);
 }

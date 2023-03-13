@@ -1,7 +1,9 @@
 package it.fogliafabrizio.mygestionale.controller;
 
+import it.fogliafabrizio.mygestionale.model.Events;
 import it.fogliafabrizio.mygestionale.model.UserGroups;
 import it.fogliafabrizio.mygestionale.model.Users;
+import it.fogliafabrizio.mygestionale.repository.EventsRepository;
 import it.fogliafabrizio.mygestionale.repository.UserGroupsRepository;
 import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
@@ -23,6 +26,9 @@ public class CalendarController {
 
     @Autowired
     private UserGroupsRepository groupsRepository;
+
+    @Autowired
+    private EventsRepository eventsRepository;
 
     @ModelAttribute
     private void userDetails(
@@ -58,5 +64,16 @@ public class CalendarController {
         model.addAttribute("groupsList", allGroups);
 
         return "calendar";
+    }
+
+    @GetMapping("/event/{id}")
+    public String getEventInfo(
+            @PathVariable Long id,
+            Model model
+    ){
+        Events event = eventsRepository.findById(id).orElseThrow();
+        model.addAttribute("title", event.getName());
+        model.addAttribute("event", event);
+        return "event_info";
     }
 }

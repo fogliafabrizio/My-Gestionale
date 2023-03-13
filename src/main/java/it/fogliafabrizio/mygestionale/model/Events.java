@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -54,6 +56,11 @@ public class Events {
     private String location = "";
 
     @Column(
+            name = "link"
+    )
+    private String link = "";
+
+    @Column(
             name = "date",
             nullable = false
     )
@@ -63,14 +70,14 @@ public class Events {
     @Column(
             name = "begin_hour"
             )
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date beginHour;
+    @Temporal(TemporalType.TIME)
+    private LocalTime beginHour;
 
     @Column(
             name = "end_hour"
             )
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date endHour;
+    @Temporal(TemporalType.TIME)
+    private LocalTime endHour;
 
     @Column(
             name = "all_day"
@@ -97,8 +104,15 @@ public class Events {
     )
     private boolean festivity = false;
 
+
+    @Column(
+            name = "dob"
+    )
+    private boolean dob = false;
+
     @ManyToOne
     @JoinColumn(name = "user_owner")
+    @JsonIgnore
     private Users userCreator;
 
     @ManyToMany
@@ -107,6 +121,7 @@ public class Events {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @JsonIgnore
     private List<Users> invitedUsers = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
@@ -115,6 +130,7 @@ public class Events {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id")
     )
+    @JsonIgnore
     private List<UserGroups> invitedGroups = new ArrayList<>();
 
     @Override
@@ -124,13 +140,14 @@ public class Events {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", location='" + location + '\'' +
+                ", link='" + link + '\'' +
                 ", date=" + date +
                 ", beginHour=" + beginHour +
                 ", endHour=" + endHour +
                 ", allDay=" + allDay +
                 ", visibility=" + visibility +
                 ", allUserInvitated=" + allUserInvitated +
-                ", festivity" + festivity +
+                ", festivity=" + festivity +
                 '}';
     }
 }

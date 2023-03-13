@@ -84,9 +84,10 @@
                         </div>
                         <div class="col-md-5">
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#newEvent">
+                            <button type="button" id="btnNewEvent" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#newEvent">
                                 Crea nuovo evento
                             </button>
+                            <span id="currentDate"></span>
 
                             <!-- Modal -->
                             <div class="modal fade" id="newEvent" tabindex="-1" aria-labelledby="newEventLabel" aria-hidden="true">
@@ -98,6 +99,7 @@
                                         </div>
                                         <form action="/api/calendar/createEvent" method="POST" id="new-event-form">
                                             <div class="modal-body">
+                                                <div id="saveMessage" class="text-center"></div>
                                                 <div class="mb-3">
                                                     <label for="event-name" class="form-label">Nome evento</label>
                                                     <input type="text" class="form-control" id="event-name" name="event-name" required>
@@ -110,6 +112,11 @@
                                                     <label for="event-location" class="form-label">Luogo</label>
                                                     <input type="text" class="form-control" id="event-location" name="event-location">
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label for="event-link" class="form-label">Link collegato</label>
+                                                    <input type="text" class="form-control" id="event-link" name="event-link">
+                                                </div>
+                                                <!-- TODO: Mettere SPAN https:// e controllare input link -->
                                                 <div class="mb-3">
                                                     <label for="event-visibility" class="form-label">Visibilità</label>
                                                     <select class="form-select" id="event-visibility" name="event-visibility" required>
@@ -202,31 +209,7 @@
                                 </div>
                             </div>
                             <!-- qui andrà la lista degli eventi del giorno selezionato -->
-                            <div class="list-group">
-                                <a href="#" class="list-group-item list-group-item-action" aria-current="true">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">Evento 1</h5>
-                                        <small>01/01/2023</small>
-                                    </div>
-                                    <p class="mb-1">Descrizione breve dell'evento 1</p>
-                                    <small>Luogo dell'evento 1</small>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">Evento 2</h5>
-                                        <small>02/01/2023</small>
-                                    </div>
-                                    <p class="mb-1">Descrizione breve dell'evento 2</p>
-                                    <small>Luogo dell'evento 2</small>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">Evento 3</h5>
-                                        <small>03/01/2023</small>
-                                    </div>
-                                    <p class="mb-1">Descrizione breve dell'evento 3</p>
-                                    <small>Luogo dell'evento 3</small>
-                                </a>
+                            <div class="list-group" id="list-event">
                             </div>
 
                         </div>

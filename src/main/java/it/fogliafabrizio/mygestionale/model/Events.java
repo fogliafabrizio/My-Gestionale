@@ -5,8 +5,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
+
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -110,6 +113,9 @@ public class Events {
     )
     private boolean dob = false;
 
+    @UpdateTimestamp
+    private LocalDateTime update_on;
+
     @ManyToOne
     @JoinColumn(name = "user_owner")
     @JsonIgnore
@@ -148,6 +154,6 @@ public class Events {
                 ", visibility=" + visibility +
                 ", allUserInvitated=" + allUserInvitated +
                 ", festivity=" + festivity +
-                '}';
+                ", update_on=" + update_on + '}';
     }
 }

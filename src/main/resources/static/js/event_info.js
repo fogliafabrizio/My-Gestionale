@@ -178,4 +178,106 @@ $(document).ready(function(){
           }
         });
       });
+
+    $("#pdfButton").click(function() {
+      // Definisci le font da utilizzare nel documento PDF
+      pdfMake.fonts = {
+        Roboto: {
+          normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/fonts/Roboto/Roboto-Regular.ttf',
+          bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/fonts/Roboto/Roboto-Medium.ttf',
+          italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/fonts/Roboto/Roboto-Italic.ttf',
+          bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/fonts/Roboto/Roboto-MediumItalic.ttf'
+        }
+      };
+
+      // Seleziona la tabella e ottieni l'HTML
+      const table = document.querySelector("table");
+      const html = table.outerHTML;
+      const title = $("#eventName").text();
+
+      // Crea il documento PDF
+      const docDefinition = {
+              content: [
+                  {
+                      text: title,
+                      style: "header"
+                  },
+                  {
+                      text: " ",
+                      margin: [0, 0, 0, 0]
+                  },
+                  {
+                      table: {
+                              headerRows: 1,
+                              widths: ["*", "*", "*", "*"],
+                              body: []
+                            },
+                            style: "tableStyle" // Utilizza lo stile "tableStyle" per la tabella
+                          }
+              ],
+              styles: {
+                  header: {
+                      fontSize: 18,
+                      bold: true,
+                      margin: [0, 0, 0, 20],
+                      color: "#007bff"
+                  },
+                  tableHeader: {
+                      bold: true,
+                      fontSize: 13,
+                      color: "#007bff"
+                  },
+                  tableStyle: {
+                      margin: [0, 5, 0, 5],
+                      border: [false, false, false, false],
+                      header: {
+                        bold: true,
+                        fontSize: 13,
+                        color: "#007bff",
+                        fillColor: "#f5f5f5",
+                        margin: [5, 5, 5, 5],
+                        border: [true, true, true, false]
+                      },
+                      tableCellBold: {
+                        bold: true,
+                        fillColor: "#f5f5f5",
+                        margin: [5, 5, 5, 5],
+                        border: [true, false, false, true]
+                      },
+                      tableCell: {
+                        margin: [5, 5, 5, 5],
+                        border: [false, false, false, true]
+                      }
+                    }
+              }
+          };
+
+      // Converte la tabella HTML in un array di righe e colonne
+      const tableRows = table.rows;
+      const tableData = [];
+
+      // Itera attraverso tutte le righe della tabella
+      for (let i = 0; i < tableRows.length; i++) {
+        const tableCells = tableRows[i].cells;
+        const rowData = [];
+
+        // Itera attraverso tutte le colonne della riga corrente
+        for (let j = 0; j < tableCells.length; j++) {
+          rowData.push(tableCells[j].textContent.trim());
+        }
+
+        // Aggiungi la riga alla matrice dei dati della tabella
+        tableData.push(rowData);
+      }
+
+      // Aggiungi i dati della tabella al documento PDF
+      docDefinition.content[2].table.body = tableData;
+
+      // Crea il PDF
+      pdfMake.createPdf(docDefinition).download("table.pdf");
+
+      //  TODO: GENERARE PDF PIU BELLO!
+    });
+
+
 });

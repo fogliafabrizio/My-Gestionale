@@ -275,7 +275,7 @@ $(document).ready(function(){
             colora caselle con eventi:
             -   CERCO EVENTI IN MESE E ANNO
             -   RITORNA EVENTI
-            -   TODO: colorare caselle giorni
+
       */
       var postDataAll = {
       month : month + 1,
@@ -299,7 +299,14 @@ $(document).ready(function(){
                         return $(this).text() === day;
                     });
                 // esegui qualche operazione sulla cella, ad esempio aggiungi una classe
-                cell.addClass('bg-warning-subtle');
+                console.log(event);
+                if(event.dob){
+                    cell.addClass('bg-warning-subtle');
+                } else if (event.festivity){
+                    cell.addClass('bg-primary-subtle');
+                } else {
+                    cell.addClass('text-danger');
+                }
               });
             },
             error: function(xhr, status, error) {

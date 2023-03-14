@@ -14,7 +14,18 @@
                     <div class="card">
                         <!-- Contenuto della carta -->
                         <div class="card-header">
-                            <h4 class="card-title text-center">[[${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}]]</h4>
+                            <h4 class="card-title text-center"><i class="fa-regular fa-calendar"></i> Oggi hai [[${events.size()}]] event<span th:if="${events.size() == 1}">o</span><span th:unless="${events.size() == 1}">i</span></h4>
+                        </div>
+                        <div class="card-body text-center">
+                            <ul th:if="${events.size() > 0}" class="list-group list-group-flush">
+                                <th:block th:each="event : ${events}">
+                                    <li th:if="${event.festivity}" class="list-group-item"><i class="fa-sharp fa-solid fa-gift"></i> [[${event.name}]]</li>
+                                    <li th:if="${event.dob}" class="list-group-item"><i class="fa-solid fa-cake-candles"></i> [[${event.name}]]</li>
+                                    <li th:if="${event.visibility == T(it.fogliafabrizio.mygestionale.model.Visibility).PRIVATE}" class="list-group-item"><i class="fa-solid fa-lock"></i> [[${event.name}]]</li>
+                                    <li th:if="${event.visibility == T(it.fogliafabrizio.mygestionale.model.Visibility).PUBLIC && !event.dob && !event.festivity}" class="list-group-item"><i class="fa-solid fa-unlock"></i> [[${event.name}]]</li>
+                                </th:block>
+                            </ul>
+                            <p class="text-center" th:if="${events.size() == 0}">Nessuno evento in programma per oggi!</p>
                         </div>
                     </div>
                 </div>

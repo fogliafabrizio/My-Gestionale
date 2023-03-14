@@ -177,12 +177,14 @@ $(document).ready(function(){
               });
               });
             var datepicker = $('#birthdate').pickadate({
+                    //  TODO: Scelta anno più vasta
                   formatSubmit: 'yyyy/mm/dd',
                   format: 'd/m/yyyy',
                   selectYears: 100,
                   selectMonths: true,
                   selectYears: true,
                   max: new Date(),
+                  min: new Date(1900, 0, 1),
                   today: false,
                   clear: false,
                   close: false,

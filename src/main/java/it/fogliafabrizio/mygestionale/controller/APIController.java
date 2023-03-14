@@ -1,13 +1,11 @@
 package it.fogliafabrizio.mygestionale.controller;
 
-import it.fogliafabrizio.mygestionale.model.EventRequest;
-import it.fogliafabrizio.mygestionale.model.Events;
-import it.fogliafabrizio.mygestionale.model.UserGroups;
-import it.fogliafabrizio.mygestionale.model.Users;
+import it.fogliafabrizio.mygestionale.model.*;
 import it.fogliafabrizio.mygestionale.repository.EventsRepository;
 import it.fogliafabrizio.mygestionale.repository.UserGroupsRepository;
 import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import it.fogliafabrizio.mygestionale.service.EventService;
+import it.fogliafabrizio.mygestionale.service.UserGroupsService;
 import it.fogliafabrizio.mygestionale.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jdk.jfr.Event;
@@ -59,6 +57,9 @@ public class APIController {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private UserGroupsService groupsService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -125,9 +126,11 @@ public class APIController {
     @PostMapping("/calendar/modifyEvent/{id}")
     public String modifyEvent(
             @RequestBody EventRequest eventRequest,
-            @PathVariable Long id
-            ){
-        return eventService.modifyEvent(eventRequest,id);
+            @PathVariable Long id,
+            HttpServletRequest request
+            ) throws CloneNotSupportedException {
+        String url = request.getRequestURL().toString().replace(request.getServletPath(), "");
+        return eventService.modifyEvent(eventRequest, id, url);
     }
 
     @PostMapping("/calendar/deleteEvent/{id}")
@@ -136,5 +139,18 @@ public class APIController {
     ){
         Events events = eventsRepository.findById(id).orElseThrow();
         eventsRepository.delete(events);
+    }
+
+    @PostMapping("/group/createGroup")
+    public String createEvent(
+            @RequestBody GroupRequest groupRequest,
+            Principal principal
+    ){
+        if(groupsRepository.findByName(groupRequest.getGroupName()) != null){
+            return "NAME_TAKEN";
+        }
+        Users user = usersRepository.findByEmail(principal.getName());
+        //  TODO: TOGLIERE ID CAMPO E SISTEMARE CON PRINCIPAL
+        return groupsService.createGroup(groupRequest, user);
     }
 }

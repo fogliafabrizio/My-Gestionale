@@ -1,7 +1,9 @@
 package it.fogliafabrizio.mygestionale.controller;
 
+import it.fogliafabrizio.mygestionale.model.Events;
 import it.fogliafabrizio.mygestionale.model.Users;
 import it.fogliafabrizio.mygestionale.repository.UsersRepository;
+import it.fogliafabrizio.mygestionale.service.EventService;
 import it.fogliafabrizio.mygestionale.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.Calendar;
+import java.util.List;
 
 
 @Controller
@@ -24,6 +28,9 @@ public class HomeController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    EventService eventService;
+
     @ModelAttribute
     private void userDetails(
             Model model,
@@ -33,6 +40,17 @@ public class HomeController {
             String email = principal.getName();
             Users user = usersRepository.findByEmail(email);
             model.addAttribute("user", user);
+            Calendar today = Calendar.getInstance();
+            int day = today.get(Calendar.DAY_OF_MONTH);
+            int month = today.get(Calendar.MONTH) + 1;
+            int year = today.get(Calendar.YEAR);
+            List<Events> eventsToday = eventService.generateEvents(
+                    user.getId(),
+                    day,
+                    month,
+                    year
+            );
+            model.addAttribute("events", eventsToday);
         }
     }
 

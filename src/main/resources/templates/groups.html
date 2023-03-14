@@ -4,37 +4,97 @@
 </head>
 <body>
 <section>
+    <!-- TODO : https://mdbootstrap.com/docs/standard/components/list-group/ -->
     <div class="container-fluid">
-        <div class="row pt-3">
-            <!-- Parte sinistra - Colonna stretta -->
-            <div class="col-md-4">
-                <!-- Prima parte -->
-                <div class="mb-4">
-                    <!-- Contenuto della prima parte -->
-                    <div class="card">
-                        <!-- Contenuto della carta -->
-                        <div class="card-header">
-                            <h4 class="card-title text-center">[[${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}]]</h4>
-                        </div>
+        <div class="row pt-3 justify-content-center">
+            <div class="col-md-4 pt-3">
+                <div class="card">
+                    <!-- Contenuto della prima card -->
+                    <div class="card-header">
+                        <h5 class="card-title text-center"> Lista di gruppi a cui fai parte </h5>
                     </div>
-                </div>
-                <!-- Seconda parte -->
-                <div>
-                    <!-- Contenuto della seconda parte -->
-                    <div class="card">
-                        <!-- Contenuto della carta -->
-                        <div class="card-header">
-                            <h4 class="card-title text-center"> Messaggi </h4>
+
+                    <div class="card-body p-0" style="min-height:204px">
+                        <div class="list-group list-group-flush" th:if="${groups.size() > 0}">
+                            <th:block th:each="group : ${groups}">
+                                <button type="button" th:if="${user.id == group.userAdmin.id}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center custom-btn" th:value="${group.id}">[[${group.name}]] <i class="fa-solid fa-crown text-primary"></i></button>
+                                <button type="button" th:if="${user.id != group.userAdmin.id}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center custom-btn" th:value="${group.id}">[[${group.name}]] </button>
+                            </th:block>
                         </div>
+                        <p th:if="${groups.size() == 0}" class="text-center pt-2">Non sei presente in nessun gruppo registrato.</p>
                     </div>
+
+
+
                 </div>
             </div>
-            <!-- Parte destra - Colonna larga -->
-            <div class="col-md-8">
+            <div class="col-md-5 pt-3 pb-3">
                 <div class="card">
-                    <!-- Contenuto della carta -->
-                    <div class="card-header">
-                        <h4 class="card-title text-center"> Tracking Attività Personale </h4>
+                    <div class="card-header text-center" id="info-title">
+                        <span>Dettagli Gruppo</span>
+                    </div>
+                    <!-- Contenuto della seconda card -->
+                    <th:block th:if="${groups.size() > 0}">
+                        <div class="card-body min-height-sm" id="info-body">
+                            <p>Clicca su uno dei gruppi presenti nella lista per vedere le informazioni generali o modificarle.</p>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${groups.size() == 0}">
+                        <div class="card-body min-height-sm" id="info-body">
+                            <p>Non sei presente in nessuno dei gruppi registrati. Clicca sul bottone a destra con il <i class="fa fa-plus"></i> per crearne uno nuovo!</p>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <div class="col-md-1 w-auto pt-3 pb-3">
+                <a class="btn btn-lg btn-success rounded-circle" data-bs-toggle="modal" data-bs-target="#newGroup"><i class="fa fa-plus"></i></a>
+
+                <!-- Modal Nuovo Gruppo -->
+                <div class="modal fade" id="newGroup" tabindex="-1" aria-labelledby="newGroupLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="newGroupLabel">Crea Gruppo</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="/api/group/createGroup" method="POST" id="new-group-form">
+                                <div class="modal-body">
+                                    <div id="saveMessage" class="text-center"></div>
+                                    <div class="mb-3">
+                                        <label for="group-name" class="form-label">Nome gruppo</label>
+                                        <input type="text" class="form-control" id="group-name" name="group-name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="group-description" class="form-label">Descrizione</label>
+                                        <textarea class="form-control" id="group-description" name="group-description"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="group-visibility" class="form-label">Visibilità</label>
+                                        <select class="form-select" id="group-visibility" name="group-visibility" required>
+                                            <option th:each="visibility : ${T(it.fogliafabrizio.mygestionale.model.Visibility).values()}" th:value="${visibility}" th:text="${visibility}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <h4>Utenti</h4>
+                                            <div class="mb-3">
+                                                <div th:each="user : ${usersList}">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" th:value="${user.id} "th:id="'user-' + ${user.id}" th:name="'user-' + ${user.id}">
+                                                        <label class="form-check-label" th:attr="for='user-' + ${user.id}" th:text="${user.firstName} + ' ' + ${user.lastName}"></label>
+                                                    </div>
+                                                </div>
+                                                <!-- Aggiungi altre checkbox per gli utenti -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                                    <button type="submit" class="btn btn-primary">Salva</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

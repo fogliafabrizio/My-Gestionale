@@ -6,7 +6,6 @@ import it.fogliafabrizio.mygestionale.repository.UserGroupsRepository;
 import it.fogliafabrizio.mygestionale.repository.UsersRepository;
 import it.fogliafabrizio.mygestionale.service.EventService;
 import jakarta.mail.internet.MimeMessage;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -46,7 +45,7 @@ public class EventServiceImpl implements EventService {
         // Visibilità
         event.setVisibility(eventRequest.getEventVisibility());
         // Controllo data - non può essere prima di Oggi!
-        if(!eventRequest.getEventDate().isBefore(LocalDate.now())) {
+        if (!eventRequest.getEventDate().isBefore(LocalDate.now())) {
             // Data
             Calendar data = Calendar.getInstance();
             data.set(eventRequest.getEventDate().getYear(), eventRequest.getEventDate().getMonthValue() - 1, eventRequest.getEventDate().getDayOfMonth());
@@ -57,10 +56,10 @@ public class EventServiceImpl implements EventService {
         // All day
         event.setAllDay(eventRequest.isAllDayEvent());
         // Se non è All day - set Inizio ora e Fine ora
-        if(!eventRequest.isAllDayEvent()) {
+        if (!eventRequest.isAllDayEvent()) {
             //  Controllo che ora inizio sia prima di ora di fine
             //  Se l'ora di fine è prima dell'ora di inizio
-            if(eventRequest.getEventEndTime().isBefore(eventRequest.getEventStartTime())){
+            if (eventRequest.getEventEndTime().isBefore(eventRequest.getEventStartTime())) {
                 return "ERR_TIME";
             } else if (eventRequest.getEventStartTime().equals(eventRequest.getEventEndTime())) {
                 //  Se l'ora di inizio è uguale a quella di fine
@@ -73,7 +72,7 @@ public class EventServiceImpl implements EventService {
         // All User - In questo modo se un utente nuovo viene creato, non serve che sia inserito tra gli invitati dopo
         event.setAllUserInvitated(eventRequest.isAllUsers());
         //   Se tutti gli utenti sono invitati - non segno gli invitati
-        if(!eventRequest.isAllUsers()) {
+        if (!eventRequest.isAllUsers()) {
             List<Long> idUserInvitated = eventRequest.getUserIds();
             List<Users> userInvitated = new ArrayList<>();
             for (Long userId : idUserInvitated) {
@@ -86,7 +85,7 @@ public class EventServiceImpl implements EventService {
         // Gruppi invitati
         List<Long> idGroupInvitated = eventRequest.getGroupIds();
         List<UserGroups> groupInvitated = new ArrayList<>();
-        for (Long groupId : idGroupInvitated){
+        for (Long groupId : idGroupInvitated) {
             UserGroups group = groupsRepository.findById(groupId).orElseThrow();
             groupInvitated.add(group);
         }
@@ -95,38 +94,40 @@ public class EventServiceImpl implements EventService {
         event.setFestivity(false);
         Events eventSave = eventsRepository.save(event);
 
-        sendInvitationMail(eventSave, eventRequest, url);
+        sendInvitationMail(eventSave, eventRequest, url, false);
         return "OK";
     }
 
-    private void sendInvitationMail(Events event, EventRequest eventRequest, String url) {
+    @Override
+    public void sendInvitationMail(Events event, EventRequest eventRequest, String url, boolean modifyEvent) {
         String from = "info@rationence.eu";
         String subject = "Sei stato invitato ad un nuovo evento!";
-        String content = "Ciao [[name]]! <br> Sei stato invitato a questo evento da [[userCreator]]: <br> <h3> [[eventName]] </h3><br> Data e Ora: [[data]] - [[orario]]<br> Per vedere maggiori dettagli <a href=\"[[URL]]\" target=\"_self\">Clicca qui</a> <br> Grazie, <br> Rationence.";
+        String content = "Ciao [[name]]! <br> Sei stato invitato a questo evento da [[userCreator]]: <br> <h3> [[eventName]] </h3><br> Data e Ora: [[data]] - [[orario]]<br><br> Per vedere maggiori dettagli <a href=\"[[URL]]\" target=\"_self\">Clicca qui</a> <br><br> Rationence.";
         List<Long> idUserInvitated = eventRequest.getUserIds();
         List<Long> idGroupsInvitated = eventRequest.getGroupIds();
         List<String> emailUser = new ArrayList<>();
-        content=content.replace("[[userCreator]]", event.getUserCreator().getFirstName() + " " + event.getUserCreator().getLastName());
-        content=content.replace("[[eventName]]", event.getName());
-        content=content.replace("[[data]]", eventRequest.getEventDate().toString());
-        if(event.isAllDay()){
-            content=content.replace("[[orario]]", "Tutto il giorno.");
+        content = content.replace("[[userCreator]]", event.getUserCreator().getFirstName() + " " + event.getUserCreator().getLastName());
+        content = content.replace("[[eventName]]", event.getName());
+        content = content.replace("[[data]]", eventRequest.getEventDate().toString());
+        if (event.isAllDay()) {
+            content = content.replace("[[orario]]", "Tutto il giorno.");
         } else {
-            content=content.replace("[[orario]]", "dalle ore " + eventRequest.getEventStartTime() + " alle ore" + eventRequest.getEventEndTime());
+            content = content.replace("[[orario]]", "dalle ore " + eventRequest.getEventStartTime() + " alle ore" + eventRequest.getEventEndTime());
         }
-        //  TODO: Sistemare creazione mail
-        String siteUrl = url+"/calendar/event/"+ event.getId();
-        content=content.replace("[[URL]]", siteUrl);
+
+        String siteUrl = url + "/calendar/event/" + event.getId();
+        content = content.replace("[[URL]]", siteUrl);
 
         //  Fare la lista di mail
-        for (Long id : idUserInvitated){
+        for (Long id : idUserInvitated) {
             emailUser.add(usersRepository.findById(id).get().getEmail());
         }
-        for (Long id : idGroupsInvitated){
+        for (Long id : idGroupsInvitated) {
             List<Users> users = (groupsRepository.findById(id).get().getUserMembers());
-            for(Users user : users){
+            for (Users user : users) {
                 String email = user.getEmail();
-                if(!emailUser.contains(email)){
+                if (!emailUser.contains(email) && (!email.equals(event.getUserCreator().getEmail()))) {
+                    //  TODO: Dopo metodo creazione gruppi provare se funziona questo per evitare mail doppie
                     emailUser.add(email);
                 }
             }
@@ -134,18 +135,19 @@ public class EventServiceImpl implements EventService {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
-            for(String to: emailUser){
+            for (String to : emailUser) {
                 helper.setFrom(from);
                 helper.setTo(to);
                 helper.setSubject(subject);
                 Users userSaved = usersRepository.findByEmail(to);
-                content=content.replace("[[name]]", userSaved.getFirstName());
+                String contentNoName = content;
+                contentNoName = contentNoName.replace("[[name]]", userSaved.getFirstName());
 
-                helper.setText(content, true);
+                helper.setText(contentNoName, true);
 
                 javaMailSender.send(message);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -154,7 +156,7 @@ public class EventServiceImpl implements EventService {
     public List<Events> generateEvents(Long id, int day, int month, int year) {
         Calendar data = Calendar.getInstance();
         data.set(Calendar.DAY_OF_MONTH, day);
-        switch (month){
+        switch (month) {
             case 1:
                 data.set(Calendar.MONTH, Calendar.JANUARY);
                 break;
@@ -222,8 +224,8 @@ public class EventServiceImpl implements EventService {
          */
         List<Users> birthdateUserList = usersRepository.findByBirthdateMonthAndDay(month, day);
         List<Events> birthdayEvents = new ArrayList<>();
-        if (!birthdateUserList.isEmpty()){
-            for(Users userBirthdate : birthdateUserList){
+        if (!birthdateUserList.isEmpty()) {
+            for (Users userBirthdate : birthdateUserList) {
                 Events birthdate = new Events();
                 birthdate.setDate(data);
                 birthdate.setName("Compleanno di " + userBirthdate.getFirstName() + " " + userBirthdate.getLastName());
@@ -267,6 +269,7 @@ public class EventServiceImpl implements EventService {
         return allEvents;
     }
 
+    @Override
     public List<Events> generateAllEvents(Long id, int month, int year) {
         List<Events> allEvents = new ArrayList<>();
 
@@ -293,7 +296,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public String modifyEvent(EventRequest eventRequest, Long id) {
+    public String modifyEvent(EventRequest eventRequest, Long id, String url) {
         Events event = eventsRepository.findById(id).orElseThrow();
         // Name
         event.setName(eventRequest.getEventName());
@@ -306,7 +309,7 @@ public class EventServiceImpl implements EventService {
         // Visibilità
         event.setVisibility(eventRequest.getEventVisibility());
         // Controllo data - non può essere prima di Oggi!
-        if(!eventRequest.getEventDate().isBefore(LocalDate.now())) {
+        if (!eventRequest.getEventDate().isBefore(LocalDate.now())) {
             // Data
             Calendar data = Calendar.getInstance();
             data.set(eventRequest.getEventDate().getYear(), eventRequest.getEventDate().getMonthValue() - 1, eventRequest.getEventDate().getDayOfMonth());
@@ -317,10 +320,10 @@ public class EventServiceImpl implements EventService {
         // All day
         event.setAllDay(eventRequest.isAllDayEvent());
         // Se non è All day - set Inizio ora e Fine ora
-        if(!eventRequest.isAllDayEvent()) {
+        if (!eventRequest.isAllDayEvent()) {
             //  Controllo che ora inizio sia prima di ora di fine
             //  Se l'ora di fine è prima dell'ora di inizio
-            if(eventRequest.getEventEndTime().isBefore(eventRequest.getEventStartTime())){
+            if (eventRequest.getEventEndTime().isBefore(eventRequest.getEventStartTime())) {
                 return "ERR_TIME";
             } else if (eventRequest.getEventStartTime().equals(eventRequest.getEventEndTime())) {
                 //  Se l'ora di inizio è uguale a quella di fine
@@ -336,7 +339,7 @@ public class EventServiceImpl implements EventService {
         // All User - In questo modo se un utente nuovo viene creato, non serve che sia inserito tra gli invitati dopo
         event.setAllUserInvitated(eventRequest.isAllUsers());
         //   Se tutti gli utenti sono invitati - non segno gli invitati
-        if(!eventRequest.isAllUsers()) {
+        if (!eventRequest.isAllUsers()) {
             List<Long> idUserInvitated = eventRequest.getUserIds();
             List<Users> userInvitated = new ArrayList<>();
             for (Long userId : idUserInvitated) {
@@ -351,13 +354,16 @@ public class EventServiceImpl implements EventService {
         // Gruppi invitati
         List<Long> idGroupInvitated = eventRequest.getGroupIds();
         List<UserGroups> groupInvitated = new ArrayList<>();
-        for (Long groupId : idGroupInvitated){
+        for (Long groupId : idGroupInvitated) {
             UserGroups group = groupsRepository.findById(groupId).orElseThrow();
             groupInvitated.add(group);
         }
         event.setInvitedGroups(groupInvitated);
         event.setFestivity(false);
-        eventsRepository.save(event);
+        Events eventModified = eventsRepository.save(event);
+
         return "OK";
     }
+
+    //  TODO: Mandare email di modifica evento
 }

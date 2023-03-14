@@ -10,7 +10,7 @@
                 <div class="card" style="padding:0">
                     <div class="card-header">
                         <div class="text-center">
-                            <h4 th:text="${event.name}"></h4>
+                            <h4 id="eventName" th:text="${event.name}"></h4>
                         </div>
                     </div>
                     <div class="card-body">
@@ -24,10 +24,12 @@
                                 <th scope="col">Luogo</th>
                                 <td th:text="${event.location}"></td>
                             </tr>
-                            <tr>
-                                <th scope="col">Link</th>
-                                <td><a th:href="@{${event.link}}">Clicca qui</a></td>
-                            </tr>
+                            <th:block th:if="${event.link != ''}">
+                                <tr>
+                                    <th scope="col">Link</th>
+                                    <td><a th:href="@{${event.link}}">Clicca qui</a></td>
+                                </tr>
+                            </th:block>
                             <tr>
                                 <th scope="col">Data</th>
                                 <td th:text="${#dates.format(event.date, 'dd/MM/yyyy')}"></td>
@@ -39,6 +41,10 @@
                                 <td th:text="${event.beginHour} + ' - ' + ${event.endHour}"></td>
                             </tr>
                             </th:block>
+                            <tr>
+                                <th scope="col">Ultimo aggiornamento</th>
+                                <td th:text="${event.update_on.format(T(java.time.format.DateTimeFormatter).ofPattern('dd-MM-yyyy HH:mm'))}"></td>
+                            </tr>
                             <th:block th:if="${event.allDay} == true">
                                 <tr>
                                     <th scope="col">Durata</th>
@@ -244,6 +250,9 @@
                         </div>
                     </div>
                 </th:block>
+                <button type="button" id="pdfButton" class="btn btn-primary mx-2 rounded-circle">
+                    <i class="fa-solid fa-file-pdf"></i>
+                </button>
             </div>
         </div>
     </div>

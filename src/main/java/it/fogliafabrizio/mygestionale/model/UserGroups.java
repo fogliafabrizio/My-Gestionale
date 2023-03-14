@@ -44,6 +44,11 @@ public class UserGroups {
     private String name;
 
     @Column(
+            name = "description"
+    )
+    private String description;
+
+    @Column(
             name = "team_visibility",
             nullable = false
     )
@@ -77,6 +82,7 @@ public class UserGroups {
         return "UserGroups{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 ", visibility=" + visibility +
                 ", createdOn=" + createdOn +
                 '}';

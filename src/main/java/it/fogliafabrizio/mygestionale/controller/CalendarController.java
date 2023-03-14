@@ -58,7 +58,6 @@ public class CalendarController {
         String email = principal.getName();
         Users user = usersRepository.findByEmail(email);
         allUsers.remove(user);
-        System.out.println(allUsers);
         model.addAttribute("usersList", allUsers);
 
         /* Lista di Gruppi pubblici o utente è admin */
